@@ -1,15 +1,14 @@
 <template>
-<div class="bg-gray-950">
-    <nav class="py-10 px-8 border-b border-lime-400">
+<div class="bg-gray-950 h-screen">
+    <nav class="md:py-6 md:px-8 px-2 py-4 border-b border-lime-300">
     <div class="max-w-7xl max-auto">
-      
       <div class="flex items-center justify-between">
-        <div class="menu-left">
-          <a href="#" class="text-xl text-lime-300">Chatter</a>
+        <div class="menu-left p-2">
+          <a href="#" class="text-lime-300 md:text-3xl font-bold">Chatter</a>
         </div>
 
-      <div class="menu-center flex space-x-12">
-        <a href="#" class="text-lime-300">
+      <div class="menu-center flex justify-between md:space-x-12">
+        <a href="#" class="text-lime-300 p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -26,7 +25,7 @@
           </svg>
         </a>
 
-        <a href="#">
+        <a href="#" class="text-slate-200 p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -43,7 +42,7 @@
           </svg>
         </a>
 
-        <a href="#">
+        <a href="#" class="text-slate-200 p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -60,7 +59,7 @@
           </svg>
         </a>
 
-        <a href="#">
+        <a href="#" class="text-slate-200 p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -78,15 +77,18 @@
         </a>
       </div>
 
-      <div class="menu-right">
+      <div class="menu-right p-2">
         <a href="#">
-          <img src="https://mighty.tools/mockmind-api/content/human/43.jpg" class="rounded-full w-12" />
+          <img 
+            src="https://mighty.tools/mockmind-api/content/human/43.jpg" 
+            class="rounded-full w-12" 
+          />
         </a>
       </div>
      </div>
     </div>
   </nav>
-  <main class="px-8 py-6 bg-gray-900">
+  <main class="px-8 py-8 bg-gray-900 min-h-full">
     <router-view />
   </main>
 </div>
