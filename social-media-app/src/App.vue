@@ -4,10 +4,10 @@
       <div class="max-w-7xl m-auto">
         <div class="flex items-center justify-between">
           <div class="menu-left p-2">
-            <a href="#" class="text-lime-300 md:text-3xl text-2xl font-bold flex items-center">
+            <router-link :to="{name: 'home'}" class="text-lime-300 md:text-3xl text-2xl font-bold flex items-center">
               <img src="./assets/logo.png" alt="chatter logo" class="md:w-12 w-10"/>
               <span class="mx-2">Chatter</span>
-            </a>
+            </router-link>
           </div>
 
           <div class="menu-center md:space-x-12 hidden lg:flex justify-between">
@@ -22,7 +22,7 @@
               <span class="ml-2">Home</span>
             </router-link>
 
-            <a href="#" class="text-slate-200 p-2 flex items-center">
+            <router-link :to="{name: 'messages'}" class="text-slate-200 p-2 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
@@ -31,7 +31,7 @@
                 </path>
               </svg>
               <span class="ml-2">Chat</span>
-            </a>
+            </router-link>
 
             <a href="#" class="text-slate-200 p-2 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
