@@ -1,0 +1,238 @@
+<template>
+  <div class="max-w-7xl mx-auto grid grid-cols-3 gap-4">
+    <div class="main-center lg:col-span-2 col-span-3 space-y-4">
+      <div class="bg-gray-950 border border-lime-300 rounded-lg">
+        <div class="p-4">
+          <textarea
+            class="p-4 w-full bg-slate-200 rounded-lg text-slate-950"
+            placeholder="What are you thinking about?"
+          ></textarea>
+        </div>
+
+        <div
+          class="m-4 mt-0 pt-4 border-t border-slate-700 flex justify-between items-center"
+        >
+          <div>
+            <img
+              src="https://mighty.tools/mockmind-api/content/human/43.jpg"
+              class="rounded-full w-12 sm:block hidden"
+            />
+          </div>
+          <div>
+            <button
+              href="#"
+              class="mx-2 py-2 px-4 bg-transparent text-lime-300 rounded-lg border border-lime-300 font-medium"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+            </button>
+
+            <button
+              href="#"
+              class="mx-2 py-2 px-4 bg-lime-300 text-slate-900 rounded-lg font-medium"
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+</svg>
+
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-950 border border-lime-300 rounded-lg">
+        <div class="mb-6 flex items-center justify-between">
+          <div class="flex items-center space-x-6">
+            <img
+              src="https://mighty.tools/mockmind-api/content/human/49.jpg"
+              class="w-[40px] rounded-full"
+            />
+
+            <p class="text-slate-200"><strong>Angelica Johnson</strong></p>
+          </div>
+
+          <p class="text-slate-400 text-sm">18 minutes ago</p>
+        </div>
+
+        <img
+          src="https://images.unsplash.com/photo-1661956602868-6ae368943878?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2670&amp;q=80"
+          class="w-full rounded-lg"
+        />
+
+        <div class="my-6 flex justify-between">
+          <div class="flex space-x-6">
+            <div class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-slate-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                ></path>
+              </svg>
+
+              <span class="text-slate-400 text-xs">90 likes</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
+                ></path>
+              </svg>
+
+              <span class="text-slate-400 text-xs">12 comments</span>
+            </div>
+          </div>
+
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 text-slate-200"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-950 border border-lime-300 rounded-lg">
+        <div class="mb-6 flex items-center justify-between">
+          <div class="flex items-center space-x-6">
+            <img
+              src="https://mighty.tools/mockmind-api/content/human/37.jpg"
+              class="w-[40px] rounded-full"
+            />
+
+            <p class="text-slate-200"><strong>James Colton</strong></p>
+          </div>
+
+          <p class="text-slate-400 text-sm">18 minutes ago</p>
+        </div>
+
+        <p class="text-slate-200">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a
+          arcu at est ullamcorper tempus quis et mauris. Morbi condimentum
+          molestie mauris eget molestie. Duis id orci sed arcu vulputate
+          volutpat vitae ac orci. Vestibulum ornare semper ligula, nec faucibus
+          dui. Etiam leo nisl, commodo et elit at, gravida maximus augue.
+          Integer cursus, mi eget tristique viverra, elit neque sollicitudin ex,
+          quis molestie nibh augue sit amet lacus. Morbi aliquet ultricies est
+          vel feugiat. Morbi efficitur est venenatis, molestie nunc egestas,
+          euismod leo.
+        </p>
+
+        <div class="my-6 flex justify-between">
+          <div class="flex space-x-6">
+            <div class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-slate-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                ></path>
+              </svg>
+
+              <span class="text-slate-400 text-xs">82 likes</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-slate-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
+                ></path>
+              </svg>
+
+              <span class="text-slate-400 text-xs">0 comments</span>
+            </div>
+          </div>
+
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 text-slate-200"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-right lg:col-span-1 col-span-3 space-y-4">
+      <PeopleYouMayKnow />
+
+      <Trends />
+    </div>
+  </div>
+</template>
+
+<script>
+import PeopleYouMayKnow from "../components/PeopleYouMayKnow.vue";
+import Trends from "../components/Trends.vue";
+
+export default {
+  name: "FeedView",
+  components: {
+    PeopleYouMayKnow,
+    Trends,
+  },
+};
+</script>
