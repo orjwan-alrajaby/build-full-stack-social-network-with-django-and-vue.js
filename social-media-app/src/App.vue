@@ -44,7 +44,7 @@
               <span class="ml-2">Notifications</span>
             </a>
 
-            <a href="#" class="text-slate-200 p-2 flex items-center">
+            <router-link :to="{name: 'search'}" class="text-slate-200 p-2 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
@@ -53,7 +53,7 @@
                 </path>
               </svg>
               <span class="ml-2">Search</span>
-            </a>
+            </router-link>
           </div>
 
           <div class="menu-right p-2 hidden lg:flex">
