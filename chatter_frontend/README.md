@@ -1,4 +1,4 @@
-# social-media-app
+# Chatter social media app
 
 ## Project setup
 ```
