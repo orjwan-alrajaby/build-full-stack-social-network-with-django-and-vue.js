@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+# Tell Django that the User model we want it to use lives in the account app, 
+# and we don't want to use the default one that Django comes with
+AUTH_USER_MODEL = 'account.User'
+ 
+
+
 # relevant documentation:
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
 SIMPLE_JWT = {
@@ -65,7 +72,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     "corsheaders",
-    'blog.apps.AccountConfig',
+    'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
