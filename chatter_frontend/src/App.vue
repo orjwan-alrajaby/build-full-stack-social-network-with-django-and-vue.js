@@ -1,18 +1,18 @@
 <template>
-  <div class="bg-gray-950 h-screen relative">
-    <nav class="md:py-6 md:px-8 px-2 py-4 border-b border-lime-300">
-      <div class="max-w-7xl m-auto">
+  <div class="relative h-screen bg-gray-950">
+    <nav class="px-2 py-4 border-b md:py-6 md:px-8 border-lime-300">
+      <div class="m-auto max-w-7xl">
         <div class="flex items-center justify-between">
-          <div class="menu-left p-2">
-            <router-link :to="{name: 'home'}" class="text-lime-300 md:text-3xl text-2xl font-bold flex items-center">
-              <img src="./assets/logo.png" alt="chatter logo" class="md:w-12 w-10"/>
+          <div class="p-2 menu-left">
+            <router-link :to="{name: 'home'}" class="flex items-center text-2xl font-bold text-lime-300 md:text-3xl">
+              <img src="./assets/logo.png" alt="chatter logo" class="w-10 md:w-12"/>
               <span class="mx-2">Chatter</span>
             </router-link>
           </div>
 
-          <div class="menu-center md:space-x-12 hidden lg:flex justify-between">
+          <div class="justify-between hidden menu-center md:space-x-12 lg:flex">
             <router-link :to="{ name: 'home' }"
-              class="text-lime-300 p-2 flex items-center">
+              class="flex items-center p-2 text-lime-300">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
@@ -22,7 +22,7 @@
               <span class="ml-2">Home</span>
             </router-link>
 
-            <router-link :to="{name: 'messages'}" class="text-slate-200 p-2 flex items-center">
+            <router-link :to="{name: 'messages'}" class="flex items-center p-2 text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
@@ -33,7 +33,7 @@
               <span class="ml-2">Chat</span>
             </router-link>
 
-            <a href="#" class="text-slate-200 p-2 flex items-center">
+            <a href="#" class="flex items-center p-2 text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
@@ -44,7 +44,7 @@
               <span class="ml-2">Notifications</span>
             </a>
 
-            <router-link :to="{name: 'search'}" class="text-slate-200 p-2 flex items-center">
+            <router-link :to="{name: 'search'}" class="flex items-center p-2 text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-6 h-6">
@@ -56,7 +56,7 @@
             </router-link>
           </div>
 
-          <div class="menu-right p-2 hidden lg:flex">
+          <div class="hidden p-2 menu-right lg:flex">
             <a href="#" class="flex items-center text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -70,8 +70,20 @@
         </div>
       </div>
     </nav>
-    <main class="md:p-10 sm:p-8 py-6 px-4 bg-gray-900 min-h-full">
+    <main class="min-h-full px-4 py-6 bg-gray-900 md:p-10 sm:p-8">
       <router-view />
     </main>
+    <Toast />
   </div>
 </template>
+
+<script>
+import Toast from "@/components/Toast.vue"
+
+export default {
+  components: {
+    Toast
+  }
+}
+</script>
+
