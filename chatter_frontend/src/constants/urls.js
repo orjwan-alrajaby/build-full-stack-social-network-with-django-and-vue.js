@@ -1,6 +1,8 @@
 const URLS = {
-  refreshToken: "/api/account/refresh/",
-  signUp: "/api/signup/"
+  refreshToken: "/api/refresh/",
+  signUp: "/api/signup/",
+  login: "/api/login/",
+  me: "/api/me/"
 }
 
 export default URLS

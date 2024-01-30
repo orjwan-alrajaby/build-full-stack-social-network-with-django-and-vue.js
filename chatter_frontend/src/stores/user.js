@@ -17,18 +17,17 @@ export const useUserStore = defineStore({
   }),
 
   actions: {
-    initializeStore() {
+    async initializeStore() {
       if (localStorage.getItem('user.accessToken')) {
-        this.user = {
-          isAuthenticated: true,
-          id: localStorage.getItem('user.id'),
-          name: localStorage.getItem('user.name'),
-          email: localStorage.getItem('user.email'),
-          accessToken: localStorage.getItem('user.accessToken'),
-          refreshToken: localStorage.getItem('user.refreshToken'),
-        }
+        this.user.isAuthenticated = true;
+        this.user.id = localStorage.getItem('user.id');
+        this.user.name = localStorage.getItem('user.name');
+        this.user.email = localStorage.getItem('user.email');
+        this.user.accessToken = localStorage.getItem('user.accessToken');
+        this.user.refreshToken = localStorage.getItem('user.refreshToken');
 
-        this.refreshToken();
+
+        await this.handleRefreshToken();
 
         console.log({
           status: "initialize user",
@@ -37,36 +36,38 @@ export const useUserStore = defineStore({
       }
     },
 
-    setToken(data) {
+    handleSetToken(data) {
       console.log({
-        status: 'set token',
-        data,
+        status: 'BEFORE set token',
+        user:this.user,
       })
 
-      this.user = {
-        ...this.user,
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-        isAuthenticated: true
-      }
+      this.user.accessToken = data.access;
+      this.user.refreshToken = data.refresh;
+      this.user.isAuthenticated = true;
 
-      localStorage.setItem('user.accessToken', data.accessToken)
-      localStorage.setItem('user.refreshToken', data.refreshToken)
+      console.log({
+        status: 'AFTER set token',
+        user: this.user,
+      })
+
+      localStorage.setItem('user.accessToken', data.access)
+      localStorage.setItem('user.refreshToken', data.refresh)
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`
     },
 
-    removeToken() {
+    handleRemoveToken() {
       console.log({
         status: 'remove token'
       })
 
-      this.user = {
-        isAuthenticated: false,
-        id: '',
-        name: '',
-        email: '',
-        accessToken: '',
-        refreshToken: '',
-      }
+      this.user.id = "";
+      this.user.name = "";
+      this.user.email = "";
+      this.user.accessToken = "";
+      this.user.refreshToken = "";
+      this.user.isAuthenticated = false;
 
       localStorage.removeItem('user.id')
       localStorage.removeItem('user.name')
@@ -81,12 +82,9 @@ export const useUserStore = defineStore({
         user,
       })
 
-      this.user = {
-        ...this.user,
-        id: user.id,
-        name: user.name,
-        email: user.email
-      }
+      this.user.id = user.id;
+      this.user.name = user.name;
+      this.user.email = user.email;
 
       localStorage.setItem('user.id', user.id);
       localStorage.setItem('user.name', user.name);
@@ -98,20 +96,23 @@ export const useUserStore = defineStore({
       })
     },
 
-   async refreshToken() {
+    async handleRefreshToken() {
+     console.log({})
      try {
-       response = await axios.post(URLS.refreshToken, {
-         refreshToken: this.user.refreshToken
-       })
+       if (this.user.refreshToken) {
+         console.log("this.user.refreshToken", this.user.refreshToken)
+         const response = await axios.post(URLS.refreshToken, {
+           refresh: this.user.refreshToken
+          })
 
-       this.user.accessToken = response.data.access
-
-       localStorage.setItem('user.accessToken', response.data.access)
-
-       axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access}`
-     }
-     catch (error) {
-       this.removeToken();
+         console.log("response123", response)
+         this.user.accessToken = response.data.access
+         localStorage.setItem('user.accessToken', response.data.access)
+         axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access}`
+       }
+     } catch (error) {
+       console.error(error)
+       this.handleRemoveToken();
      }
     }
   }

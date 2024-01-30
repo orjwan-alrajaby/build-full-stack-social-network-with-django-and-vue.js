@@ -106,10 +106,7 @@ export default {
               password1: '',
               password2: ''
             }
-
-            setTimeout(() => {
-              this.router.push({name: 'login'})
-             }, 1000)
+            this.router.push({name: 'login'})
           } else {
             this.toast.error(response.data.message, {
               toastClassName: "!bg-red-700 !text-slate-200",
