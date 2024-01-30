@@ -26,9 +26,29 @@ def signup(request):
       'message': 'user created successfully.',
       'status': status.HTTP_201_CREATED
     })
-  else:
-    return JsonResponse({
-      'message': 'something went wrong.',
-      'status': status.HTTP_400_BAD_REQUEST
-    })
- 
+  else:    
+    if len(form.errors.keys()) > 0:
+      return JsonResponse({
+        'message': "Bad request. User data is not valid.",
+        'status': status.HTTP_400_BAD_REQUEST,
+        'errors': form.errors
+      })
+    return  JsonResponse({'message':'Unexpected error.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+# 
+# {
+#     "message": "something went wrong.",
+#     "status": 400,
+#     "errors": {
+#         "email": [
+#             "Enter a valid email address."
+#         ],
+#         "password2": [
+#             "The two password fields didn\u2019t match."
+#         ]
+#     }
+# }

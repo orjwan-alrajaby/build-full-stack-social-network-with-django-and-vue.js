@@ -7,19 +7,19 @@
     <form class="block space-y-6 lg:w-3/6" v-on:submit.prevent="submitForm">
       <div> 
         <label class="block mb-3 text-slate-200">Full Name</label>
-        <input placeholder="Enter full name" type="text" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.name"/>
+        <input placeholder="Enter full name" type="text" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.name" required/>
       </div>
       <div>
         <label class="block mb-3 text-slate-200">Email Address</label>
-        <input placeholder="Enter email address" type="text" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.email"/>
+        <input placeholder="Enter email address" type="text" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.email" required/>
       </div>
       <div>
         <label class="block mb-3 text-slate-200">Password</label>
-        <input placeholder="Enter password" type="password" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.password1"/>
+        <input placeholder="Enter password" type="password" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.password1" required/>
       </div>
       <div>
         <label class="block mb-3 text-slate-200">Confirm Password</label>
-        <input placeholder="Confirm password" type="password" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.password2"/>
+        <input placeholder="Confirm password" type="password" class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950" v-model="form.password2" required/>
       </div>
       <div>
         <button class="flex items-center justify-center w-full h-10 px-4 py-2 font-medium rounded-lg bg-lime-300 text-slate-950 disabled:bg-slate-600" :disabled="isLoading">
@@ -39,17 +39,18 @@
 
 <script>
 import URLS from '@/constants/urls';
-import { useToastStore } from '@/stores/toast';
 import axios from 'axios';
 import { useRouter } from 'vue-router'
+import { useToast } from "vue-toastification";
 
 export default {
-
   setup() {
-    const toastStore = useToastStore();
+    const toast = useToast();
+    const router = useRouter();
 
     return {
-      toastStore
+      toast,
+      router
     }
   },
 
@@ -95,7 +96,9 @@ export default {
         try {
           const response = await axios.post(URLS.signUp, this.form);
           if (response.data.status === 201) {
-            this.toastStore.showToast(3000, 'The user has been registered successfully. Now please log in.', 'bg-emerald-700 text-slate-200');
+            this.toast.success('The user has been registered successfully. Now please log in.', {
+              toastClassName: "!bg-emerald-700 !text-slate-200",
+            });
 
             this.form = {
               email: '',
@@ -105,11 +108,28 @@ export default {
             }
 
             setTimeout(() => {
-              const router = useRouter()
-              router.push({name: 'login'})
+              this.router.push({name: 'login'})
              }, 1000)
           } else {
-            this.toastStore.showToast(3000, 'Something went wrong. Please try to sign up again.', 'bg-red-700 text-slate-200')
+            this.toast.error(response.data.message, {
+              toastClassName: "!bg-red-700 !text-slate-200",
+            });
+
+            const errorsObj = response.data.errors;
+            const values = Object.values(errorsObj);
+            if (values.length > 0) {
+              const message = values.reduce((accum, msgArr, index) => {
+                if (index === 0) {
+                  accum = `- ${msgArr[0]}` 
+                } else {
+                  accum = accum + "\n" + `- ${msgArr[0]}`
+                }
+                return accum
+              }, "")
+              this.toast.error(message, {
+                toastClassName: "!bg-red-700 !text-slate-200",
+              });
+            }            
           }
         }
         catch (error) {
@@ -118,13 +138,17 @@ export default {
           this.isLoading = false;
         }
       } else { 
-        console.log('errors', this.errors)
-        // const messages = this.errors.reduce((accum, msg) => {
-        //   accum = accum + "<br>" + `- ${msg}`;
-        //   return accum
-        // }, '')
-        // this.toastStore.showToast(5000, messages, 'bg-red-700 text-slate-200');
-        
+        const messages = this.errors.reduce((accum, msg, index) => {
+          if (index > 0) {
+            accum = `- ${msg}`;
+          } else {
+            accum = accum + `- ${msg}`;
+          }
+          return accum
+        }, '')    
+        this.toast.error(messages, {
+          toastClassName: "!bg-red-700 !text-slate-200",
+        })   
       }
     }
   },

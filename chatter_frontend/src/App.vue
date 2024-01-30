@@ -73,17 +73,6 @@
     <main class="min-h-full px-4 py-6 bg-gray-900 md:p-10 sm:p-8">
       <router-view />
     </main>
-    <Toast />
   </div>
 </template>
-
-<script>
-import Toast from "@/components/Toast.vue"
-
-export default {
-  components: {
-    Toast
-  }
-}
-</script>
 
