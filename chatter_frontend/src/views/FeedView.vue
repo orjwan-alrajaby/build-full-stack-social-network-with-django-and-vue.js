@@ -49,8 +49,86 @@
           </div>
         </div>
       </div>
+      <template v-if="postsStore.posts.all.length > 0 && !error">
+      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300" v-for="post in postsStore.posts.all" :key="post.id">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-6">
+            <img
+              src="https://mighty.tools/mockmind-api/content/human/37.jpg"
+              class="w-[40px] rounded-full"
+            />
 
-      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300">
+            <p class="text-slate-200"><strong>{{ post.created_by.name }}</strong></p>
+          </div>
+
+          <p class="text-sm text-slate-400">{{ post.created_at_formatted }} ago</p>
+        </div>
+
+        <p class="text-slate-200">
+          {{ post.body }}
+        </p>
+
+        <div class="flex justify-between my-6">
+          <div class="flex space-x-6">
+            <div class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-slate-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                ></path>
+              </svg>
+
+              <span class="text-xs text-slate-400">82 likes</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-slate-200"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
+                ></path>
+              </svg>
+
+              <span class="text-xs text-slate-400">0 comments</span>
+            </div>
+          </div>
+
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 text-slate-200"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+            <div class="p-4 border rounded-lg bg-gray-950 border-lime-300">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center space-x-6">
             <img
@@ -128,91 +206,22 @@
           </div>
         </div>
       </div>
+      </template>
+      <div class="flex flex-col items-center justify-center h-72 text-slate-200" v-else-if="isLoading && !error">
+         <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" viewBox="0 0 24 24">
+          	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
+          	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+          		<animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+          	</path>
+          </svg>
+          <span class="mt-4 text-lg">Feed is loading...</span>
+      </div>
+      <div class="flex flex-col items-center justify-center bg-red-700 border rounded-lg text-slate-200 h-72" v-else>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="5rem" height="5rem">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>
 
-      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center space-x-6">
-            <img
-              src="https://mighty.tools/mockmind-api/content/human/37.jpg"
-              class="w-[40px] rounded-full"
-            />
-
-            <p class="text-slate-200"><strong>James Colton</strong></p>
-          </div>
-
-          <p class="text-sm text-slate-400">18 minutes ago</p>
-        </div>
-
-        <p class="text-slate-200">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a
-          arcu at est ullamcorper tempus quis et mauris. Morbi condimentum
-          molestie mauris eget molestie. Duis id orci sed arcu vulputate
-          volutpat vitae ac orci. Vestibulum ornare semper ligula, nec faucibus
-          dui. Etiam leo nisl, commodo et elit at, gravida maximus augue.
-          Integer cursus, mi eget tristique viverra, elit neque sollicitudin ex,
-          quis molestie nibh augue sit amet lacus. Morbi aliquet ultricies est
-          vel feugiat. Morbi efficitur est venenatis, molestie nunc egestas,
-          euismod leo.
-        </p>
-
-        <div class="flex justify-between my-6">
-          <div class="flex space-x-6">
-            <div class="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 text-slate-200"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                ></path>
-              </svg>
-
-              <span class="text-xs text-slate-400">82 likes</span>
-            </div>
-
-            <div class="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 text-slate-200"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
-                ></path>
-              </svg>
-
-              <span class="text-xs text-slate-400">0 comments</span>
-            </div>
-          </div>
-
-          <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6 text-slate-200"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              ></path>
-            </svg>
-          </div>
-        </div>
+          <span class="mt-4 text-lg">Something went wrong :( Please press "CTRL + R" to refresh, or try to logout and login again.</span>
       </div>
     </div>
 
@@ -227,12 +236,45 @@
 <script>
 import PeopleYouMayKnow from "../components/PeopleYouMayKnow.vue";
 import Trends from "../components/Trends.vue";
+import { usePostsStore } from '@/stores/posts';
+import { useUserStore } from '@/stores/user';
+import { useToast } from "vue-toastification";
 
 export default {
+  setup() {
+    const postsStore = usePostsStore();
+    const userStore = useUserStore();
+    const toast = useToast();
+
+    return {
+      postsStore,
+      userStore,
+      toast
+    }
+  },
   name: "FeedView",
   components: {
     PeopleYouMayKnow,
     Trends,
+  },
+  data() { 
+    return {
+      isLoading: false,
+      error: false
+    }
+  },
+  mounted() {
+    if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken) {
+      this.isLoading = true
+      this.postsStore.getAllPosts(this.userStore.user.accessToken)
+        .catch((error) => {
+          this.error = true;
+          this.isLoading = false
+      })
+        .then(() => {
+        this.isLoading = false;
+      })
+    }
   },
 };
 </script>

@@ -85,7 +85,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   
   email = models.EmailField(unique=True)
   
-  name = models.CharField(max_length=255, blank=True, default='')
+  name = models.CharField(max_length=255, blank=True, null=True, default='')
   
   avatar = models.ImageField(upload_to='avatars', blank=True, null=True)
   

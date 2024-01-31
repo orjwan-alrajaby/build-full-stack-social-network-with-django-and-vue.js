@@ -110,7 +110,7 @@ export default {
     }
   },
   beforeCreate() {
-    this.userStore.initializeStore();
+    this.userStore.initializeStore()
   },
   mounted() {
     setTimeout(() => {
