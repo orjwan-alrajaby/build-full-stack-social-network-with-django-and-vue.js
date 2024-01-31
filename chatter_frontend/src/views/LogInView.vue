@@ -24,7 +24,7 @@
           </svg>
         </button>
       </div>
-      <p class="mt-10 text-sm text-slate-400">Don't have an account? Go ahead and <router-link :to="{name:'signUp'}" class="text-lime-300">Create one</router-link>.</p>
+      <p class="mt-10 text-sm text-slate-400">Don't have an account? Go ahead and <router-link :to="{name:'sign-up'}" class="text-lime-300">Create one</router-link>.</p>
     </form>
   </div>
 </template>
@@ -32,19 +32,16 @@
 <script>
 import URLS from '@/constants/urls';
 import axios from 'axios';
-import { useRouter } from 'vue-router'
 import { useToast } from "vue-toastification";
 import { useUserStore } from '@/stores/user';
 
 export default {
   setup() {
     const toast = useToast();
-    const router = useRouter();
     const userStore = useUserStore();
 
     return {
       toast,
-      router,
       userStore
     }
   },
@@ -92,7 +89,7 @@ export default {
               email: '',
               password: '',
             }
-            this.router.push({name: 'home'})
+            this.$router.push({name: 'home'})
           } else {
             this.toast.error(response.data.message, {
               toastClassName: "!bg-red-700 !text-slate-200",

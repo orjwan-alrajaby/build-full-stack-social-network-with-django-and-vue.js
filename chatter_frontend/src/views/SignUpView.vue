@@ -40,17 +40,14 @@
 <script>
 import URLS from '@/constants/urls';
 import axios from 'axios';
-import { useRouter } from 'vue-router'
 import { useToast } from "vue-toastification";
 
 export default {
   setup() {
     const toast = useToast();
-    const router = useRouter();
 
     return {
       toast,
-      router
     }
   },
 
@@ -106,7 +103,7 @@ export default {
               password1: '',
               password2: ''
             }
-            this.router.push({name: 'login'})
+            this.$router.push({name: 'login'})
           } else {
             this.toast.error(response.data.message, {
               toastClassName: "!bg-red-700 !text-slate-200",

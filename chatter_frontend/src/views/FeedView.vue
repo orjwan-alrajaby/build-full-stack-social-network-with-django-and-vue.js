@@ -1,27 +1,27 @@
 <template>
-  <div class="max-w-7xl mx-auto grid grid-cols-3 gap-4">
-    <div class="main-center lg:col-span-2 col-span-3 space-y-4">
-      <div class="bg-gray-950 border border-lime-300 rounded-lg">
+  <div class="grid grid-cols-3 gap-4 mx-auto max-w-7xl">
+    <div class="col-span-3 space-y-4 main-center lg:col-span-2">
+      <div class="border rounded-lg bg-gray-950 border-lime-300">
         <div class="p-4">
           <textarea
-            class="p-4 w-full bg-slate-200 rounded-lg text-slate-950"
+            class="w-full p-4 rounded-lg bg-slate-200 text-slate-950"
             placeholder="What are you thinking about?"
           ></textarea>
         </div>
 
         <div
-          class="m-4 mt-0 pt-4 border-t border-slate-700 flex justify-between items-center"
+          class="flex items-center justify-between pt-4 m-4 mt-0 border-t border-slate-700"
         >
           <div>
             <img
               src="https://mighty.tools/mockmind-api/content/human/43.jpg"
-              class="rounded-full w-12 sm:block hidden"
+              class="hidden w-12 rounded-full sm:block"
             />
           </div>
           <div>
             <button
               href="#"
-              class="mx-2 py-2 px-4 bg-transparent text-lime-300 rounded-lg border border-lime-300 font-medium"
+              class="px-4 py-2 mx-2 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -39,7 +39,7 @@
 
             <button
               href="#"
-              class="mx-2 py-2 px-4 bg-lime-300 text-slate-900 rounded-lg font-medium"
+              class="px-4 py-2 mx-2 font-medium rounded-lg bg-lime-300 text-slate-900"
               >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
@@ -50,8 +50,8 @@
         </div>
       </div>
 
-      <div class="p-4 bg-gray-950 border border-lime-300 rounded-lg">
-        <div class="mb-6 flex items-center justify-between">
+      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300">
+        <div class="flex items-center justify-between mb-6">
           <div class="flex items-center space-x-6">
             <img
               src="https://mighty.tools/mockmind-api/content/human/49.jpg"
@@ -61,7 +61,7 @@
             <p class="text-slate-200"><strong>Angelica Johnson</strong></p>
           </div>
 
-          <p class="text-slate-400 text-sm">18 minutes ago</p>
+          <p class="text-sm text-slate-400">18 minutes ago</p>
         </div>
 
         <img
@@ -69,7 +69,7 @@
           class="w-full rounded-lg"
         />
 
-        <div class="my-6 flex justify-between">
+        <div class="flex justify-between my-6">
           <div class="flex space-x-6">
             <div class="flex items-center space-x-2">
               <svg
@@ -87,7 +87,7 @@
                 ></path>
               </svg>
 
-              <span class="text-slate-400 text-xs">90 likes</span>
+              <span class="text-xs text-slate-400">90 likes</span>
             </div>
 
             <div class="flex items-center space-x-2">
@@ -106,7 +106,7 @@
                 ></path>
               </svg>
 
-              <span class="text-slate-400 text-xs">12 comments</span>
+              <span class="text-xs text-slate-400">12 comments</span>
             </div>
           </div>
 
@@ -129,8 +129,8 @@
         </div>
       </div>
 
-      <div class="p-4 bg-gray-950 border border-lime-300 rounded-lg">
-        <div class="mb-6 flex items-center justify-between">
+      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300">
+        <div class="flex items-center justify-between mb-6">
           <div class="flex items-center space-x-6">
             <img
               src="https://mighty.tools/mockmind-api/content/human/37.jpg"
@@ -140,7 +140,7 @@
             <p class="text-slate-200"><strong>James Colton</strong></p>
           </div>
 
-          <p class="text-slate-400 text-sm">18 minutes ago</p>
+          <p class="text-sm text-slate-400">18 minutes ago</p>
         </div>
 
         <p class="text-slate-200">
@@ -155,7 +155,7 @@
           euismod leo.
         </p>
 
-        <div class="my-6 flex justify-between">
+        <div class="flex justify-between my-6">
           <div class="flex space-x-6">
             <div class="flex items-center space-x-2">
               <svg
@@ -173,7 +173,7 @@
                 ></path>
               </svg>
 
-              <span class="text-slate-400 text-xs">82 likes</span>
+              <span class="text-xs text-slate-400">82 likes</span>
             </div>
 
             <div class="flex items-center space-x-2">
@@ -192,7 +192,7 @@
                 ></path>
               </svg>
 
-              <span class="text-slate-400 text-xs">0 comments</span>
+              <span class="text-xs text-slate-400">0 comments</span>
             </div>
           </div>
 
@@ -216,9 +216,9 @@
       </div>
     </div>
 
-    <div class="main-right lg:col-span-1 col-span-3 space-y-4">
+    <div class="col-span-3 space-y-4 main-right lg:col-span-1">
       <PeopleYouMayKnow />
-
+      
       <Trends />
     </div>
   </div>

@@ -68,12 +68,12 @@
           </template>
           <template v-if="!userStore.user.isAuthenticated">
             <div class="hidden p-2 menu-right lg:flex">
-              <a href="#" class="px-4 py-2 ml-4 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300">
+              <router-link :to="{name:'login'}" class="px-4 py-2 ml-4 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300">
                 Log in
-              </a>
-              <a href="#" class="px-4 py-2 ml-4 font-medium rounded-lg bg-lime-300 text-gray-950">
+              </router-link>
+              <router-link :to="{name:'sign-up'}"  class="px-4 py-2 ml-4 font-medium rounded-lg bg-lime-300 text-gray-950">
                 Sign up
-              </a>
+              </router-link>
             </div>
           </template>
         </div>
@@ -87,18 +87,15 @@
 
 
 <script>
-import { useRouter } from 'vue-router'
 import { useToast } from "vue-toastification";
 import { useUserStore } from '@/stores/user';
 
 export default {
   setup() {
-    const router = useRouter();
     const userStore = useUserStore();
     const toast = useToast();
 
     return {
-      router,
       userStore,
       toast,
     }
@@ -109,19 +106,28 @@ export default {
       this.toast.info("You have been logged out.", {
         toastClassName: "!bg-blue-700 !text-slate-200",
       })
-      this.router.push({name: 'login'})
+      this.$router.push({name: 'login'})
     }
   },
+  beforeCreate() {
+    this.userStore.initializeStore();
+  },
   mounted() {
-    this.userStore.initializeStore().then(() => {
+    setTimeout(() => {
       if (this.userStore.user.isAuthenticated) {
-        this.router.push({name: 'home'})
+        this.$router.push({ name: 'home' })
       } else {
-        this.router.push({name: 'login'})
+        this.$router.push({ name: 'login' })
       }
     });
   },
-
+  watch: { 
+    $route(to, from) {
+      if (!this.userStore.user.isAuthenticated && (to.name !== 'login' && to.name !== "sign-up")) {
+        this.$router.push({ name: 'login' })
+      }
+    }
+  },
   name: 'AppView',
   components: {}
 }
