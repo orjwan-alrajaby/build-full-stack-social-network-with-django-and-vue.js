@@ -49,8 +49,8 @@
           </div>
         </div>
       </div>
-      <template v-if="postsStore.posts.all.length > 0 && !error">
-      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300" v-for="post in postsStore.posts.all" :key="post.id">
+      <template v-if="postsStore.posts.all.data.length > 0 && !postsStore.posts.all.isError">
+      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300" v-for="post in postsStore.posts.all.data" :key="post.id">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center space-x-6">
             <img
@@ -207,7 +207,7 @@
         </div>
       </div>
       </template>
-      <div class="flex flex-col items-center justify-center h-72 text-slate-200" v-else-if="isLoading && !error">
+      <div class="flex flex-col items-center justify-center h-72 text-slate-200" v-else-if="postsStore.posts.all.isLoading && !postsStore.posts.all.isError">
          <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" viewBox="0 0 24 24">
           	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
           	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
@@ -257,23 +257,9 @@ export default {
     PeopleYouMayKnow,
     Trends,
   },
-  data() { 
-    return {
-      isLoading: false,
-      error: false
-    }
-  },
   mounted() {
     if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken) {
-      this.isLoading = true
       this.postsStore.getAllPosts(this.userStore.user.accessToken)
-        .catch((error) => {
-          this.error = true;
-          this.isLoading = false
-      })
-        .then(() => {
-        this.isLoading = false;
-      })
     }
   },
 };
