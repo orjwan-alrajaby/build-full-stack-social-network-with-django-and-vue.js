@@ -6,6 +6,7 @@
           <textarea
             class="w-full p-4 rounded-lg bg-slate-200 text-slate-950"
             placeholder="What are you thinking about?"
+            v-model="body"
           ></textarea>
         </div>
 
@@ -18,17 +19,16 @@
               class="hidden w-12 rounded-full sm:block"
             />
           </div>
-          <div>
+          <form method="POST" @submit.prevent="submitForm">
             <button
-              href="#"
-              class="px-4 py-2 mx-2 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300"
+              class="w-16 h-10 mx-2 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                class="w-6 h-6 mx-auto"
               ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -38,15 +38,22 @@
             </button>
 
             <button
-              href="#"
-              class="px-4 py-2 mx-2 font-medium rounded-lg bg-lime-300 text-slate-900"
+              class="w-16 h-10 mx-2 font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-slate-600 disabled:cursor-not-allowed"
+              :disabled="!body || postsStore.posts.newPost.isLoading"
+              @click="submitForm"
               >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-</svg>
-
+              <svg v-if="postsStore.posts.newPost.isLoading" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" class="mx-auto">
+              	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
+              	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+              		<animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+              	</path>
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+              </svg>
+             
             </button>
-          </div>
+          </form>
         </div>
       </div>
       <template v-if="postsStore.posts.all.data.length > 0 && !postsStore.posts.all.isError">
@@ -257,10 +264,22 @@ export default {
     PeopleYouMayKnow,
     Trends,
   },
+  data() {
+    return {
+      body: ""
+    }
+  },
   mounted() {
     if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken) {
       this.postsStore.getAllPosts(this.userStore.user.accessToken)
     }
   },
+  methods: {
+    submitForm() {
+      this.postsStore.createPost(this.userStore.user.accessToken, this.body, this.toast).then(() => {
+        this.body = ""
+      });
+    }
+  }
 };
 </script>
