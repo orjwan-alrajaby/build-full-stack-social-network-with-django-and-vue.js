@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-3 gap-4 mx-auto max-w-7xl">
-    <div class="col-span-3 space-y-4 main-center lg:col-span-2">
-      <div class="border rounded-lg bg-gray-950 border-lime-300">
+    <div class="order-last col-span-3 space-y-4 main-center lg:col-span-2 lg:order-first">
+      <div class="border rounded-lg bg-gray-950 border-lime-300" v-if="this.$route.params.id === userStore.user.id">
         <div class="p-4">
           <textarea
             class="w-full p-4 rounded-lg bg-slate-200 text-slate-950"
@@ -11,14 +11,8 @@
         </div>
 
         <div
-          class="flex items-center justify-between pt-4 m-4 mt-0 border-t border-slate-700"
+          class="flex items-center justify-end pt-4 m-4 mt-0 border-t border-slate-700"
         >
-          <div>
-            <img
-              src="https://mighty.tools/mockmind-api/content/human/43.jpg"
-              class="hidden w-12 rounded-full sm:block"
-            />
-          </div>
           <form method="POST" @submit.prevent="submitForm">
             <button
               class="w-16 h-10 mx-2 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300"
@@ -56,8 +50,8 @@
           </form>
         </div>
       </div>
-      <template v-if="postsStore.posts.all.data.length > 0 && !postsStore.posts.all.isError">
-      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300" v-for="post in postsStore.posts.all.data" :key="post.id">
+      <template v-if="postsStore.posts.userPosts.data.length > 0 && !postsStore.posts.userPosts.isError">
+      <div class="p-4 border rounded-lg bg-gray-950 border-lime-300" v-for="post in postsStore.posts.userPosts.data" :key="post.id">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center space-x-6">
             <img
@@ -135,86 +129,8 @@
         </div>
       </div>
       
-            <div class="p-4 border rounded-lg bg-gray-950 border-lime-300">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center space-x-6">
-            <img
-              src="https://mighty.tools/mockmind-api/content/human/49.jpg"
-              class="w-[40px] rounded-full"
-            />
-
-            <p class="text-slate-200"><strong>Angelica Johnson</strong></p>
-          </div>
-
-          <p class="text-sm text-slate-400">18 minutes ago</p>
-        </div>
-
-        <img
-          src="https://images.unsplash.com/photo-1661956602868-6ae368943878?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2670&amp;q=80"
-          class="w-full rounded-lg"
-        />
-
-        <div class="flex justify-between my-6">
-          <div class="flex space-x-6">
-            <div class="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 text-slate-200"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                ></path>
-              </svg>
-
-              <span class="text-xs text-slate-400">90 likes</span>
-            </div>
-
-            <div class="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
-                ></path>
-              </svg>
-
-              <span class="text-xs text-slate-400">12 comments</span>
-            </div>
-          </div>
-
-          <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6 text-slate-200"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div>
       </template>
-      <div class="flex flex-col items-center justify-center h-72 text-slate-200" v-else-if="postsStore.posts.all.isLoading && !postsStore.posts.all.isError">
+      <div class="flex flex-col items-center justify-center h-72 text-slate-200" v-else-if="postsStore.posts.userPosts.isLoading && !postsStore.posts.userPosts.isError">
          <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" viewBox="0 0 24 24">
           	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
           	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
@@ -231,11 +147,17 @@
           <span class="mt-4 text-lg">Something went wrong :( Please press "CTRL + R" to refresh, or try to logout and login again.</span>
       </div>
     </div>
-
-    <div class="col-span-3 space-y-4 main-right lg:col-span-1">
-      <PeopleYouMayKnow />
-      
-      <Trends />
+    <div class="order-first col-span-3 space-y-4 main-right lg:col-span-1 lg:order-last">
+      <div class="px-4 py-8 text-center border rounded-lg bg-gray-950 border-lime-300 text-slate-200">
+        <img src="https://mighty.tools/mockmind-api/content/human/43.jpg" class="block w-full mx-auto mb-6 rounded-full max-w-40">
+          
+        <p class="mb-4 text-xl uppercase text-lime-300"><strong>{{ postsStore.posts.userPosts.author.name }}</strong></p>
+        <p class="font-medium text-md text-slate-200" v-if="this.$route.params.id === userStore.user.id">{{ postsStore.posts.userPosts.author.email }}</p>
+        <div class="flex justify-center mt-6 space-x-8">
+            <p class="text-xs text-slate-400">182 friends</p>
+            <p class="text-xs text-slate-400">120 posts</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -270,15 +192,17 @@ export default {
     }
   },
   mounted() {
-    if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken) {
-      this.postsStore.getAllPosts(this.userStore.user.accessToken)
+    if (!this.$route.params.id) {
+      this.$router.push({name: 'feed'})
+    } else if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken && this.$route.params.id) {
+      this.postsStore.getUserPosts(this.userStore.user.accessToken, this.$route.params.id)
     }
   },
   methods: {
     submitForm() {
-      this.postsStore.createPost(this.userStore.user.accessToken, this.body, this.toast).then(() => {
+      this.postsStore.createPost(this.userStore.user.accessToken, this.body, this.toast).then((newPost) => {
         this.body = ""
-        this.postsStore.updatePostList()
+        this.postsStore.updatePostList(this.userStore.user.id, this.$route.params.id, newPost)
       });
     }
   }

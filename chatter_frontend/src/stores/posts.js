@@ -19,6 +19,13 @@ export const usePostsStore = defineStore({
         isError: false,
         error: null,
       },
+      userPosts: {
+        isLoading: false,
+        data: [],
+        author: {},
+        isError: false,
+        error: null,
+      },
     }
   }),
 
@@ -50,8 +57,7 @@ export const usePostsStore = defineStore({
         toast.success("Post has been submitted successfully.", {
           toastClassName: "!bg-emerald-700 !text-slate-200"
         })
-        this.posts.all.data = [this.posts.newPost.data, ...this.posts.all.data]
-        return;
+        return
       } catch (error) {
         this.posts.newPost.isError = true;
         this.posts.newPost.error = error;
@@ -63,5 +69,27 @@ export const usePostsStore = defineStore({
         this.posts.newPost.isLoading = false;
       }
     },
+    async getUserPosts(accessToken, id) {
+      this.posts.userPosts.isLoading = true
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+        const response = await axios.get(URLS.userPosts(id));
+        this.posts.userPosts.data = response.data.posts;
+        this.posts.userPosts.author = response.data.author;
+        return;
+      } catch (error) {
+        this.posts.userPosts.isError = true;
+        this.posts.userPosts.error = error;
+        return;
+      } finally {
+        this.posts.userPosts.isLoading = false;
+      }
+    },
+    updatePostList(userId, urlId) { 
+      if (userId && urlId && userId === urlId) {
+        this.posts.userPosts.data = [this.posts.newPost.data, ...this.posts.userPosts.data]
+      }
+      this.posts.all.data = [this.posts.newPost.data, ...this.posts.all.data]
+    }
   }
 })

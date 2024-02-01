@@ -4,7 +4,8 @@ const URLS = {
   login: "/api/login/",
   me: "/api/me/",
   allPosts: "/api/posts/",
-  createPost: "/api/posts/create/"
+  createPost: "/api/posts/create/",
+  userPosts: (id) =>  `/api/posts/by/${id}`
 }
 
 export default URLS

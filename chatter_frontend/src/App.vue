@@ -10,7 +10,7 @@
             </router-link>
           </div>
 
-          <template v-if="userStore.user.isAuthenticated">
+          <template v-if="userStore.user.isAuthenticated && userStore.user.id">
             <div class="justify-between hidden menu-center md:space-x-12 lg:flex">
               <router-link :to="{ name: 'home' }"
                 class="flex items-center p-2 text-lime-300">
@@ -22,7 +22,7 @@
                 </svg>
                 <span class="ml-2">Home</span>
               </router-link>
-
+              
               <router-link :to="{name: 'messages'}" class="flex items-center p-2 text-slate-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                   viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -58,13 +58,21 @@
             </div>
 
             <div class="hidden p-2 menu-right lg:flex">
-              <button class="flex items-center bg-transparent border-none text-slate-400" @click="handleLogOut">
+              <button class="flex items-center justify-center bg-transparent border-none text-slate-400 w-36" @click="handleLogOut" v-if="isUserProfile">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                 </svg>
                 <span class="ml-2">Log out</span>
               </button>
+
+              <router-link :to="{name: 'user-profile', params: {id: userStore.user.id}}" class="flex items-center justify-center p-2 w-36 text-slate-200" v-else>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+                <span class="ml-2">My Account</span>
+              </router-link>
             </div>
+
           </template>
           <template v-if="!userStore.user.isAuthenticated">
             <div class="hidden p-2 menu-right lg:flex">
@@ -109,6 +117,11 @@ export default {
       this.$router.push({name: 'login'})
     }
   },
+  data() {
+    return {
+      isUserProfile: false
+    }
+   },
   beforeCreate() {
     this.userStore.initializeStore()
   },
@@ -125,6 +138,10 @@ export default {
     $route(to, from) {
       if (!this.userStore.user.isAuthenticated && (to.name !== 'login' && to.name !== "sign-up")) {
         this.$router.push({ name: 'login' })
+      } else if (to.name === 'user-profile' && this.userStore.user.id === to.params.id) {
+        this.isUserProfile = true;
+      } else {
+        this.isUserProfile = false;
       }
     }
   },

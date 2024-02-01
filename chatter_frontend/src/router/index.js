@@ -4,6 +4,7 @@ import LogInView from "../views/LogInView.vue"
 import FeedView from "../views/FeedView.vue"
 import MessagesView from "../views/MessagesView.vue"
 import SearchView from "../views/SearchView.vue"
+import UserProfileView from "../views/UserProfileView.vue"
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/search',
     name: 'search',
     component: SearchView
+  },
+  {
+    path: '/users/:id',
+    name: 'user-profile',
+    component: UserProfileView
   },
   {
     path: '/about',
