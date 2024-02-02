@@ -65,7 +65,13 @@
               class="w-[40px] rounded-full"
             />
 
-            <p class="text-slate-200"><strong>{{ post.created_by.name }}</strong></p>
+            <p class="text-slate-200">
+              <strong>
+                <router-link :to="{name: 'user-profile', params: {id: post.created_by.id}}">
+                  {{ post.created_by.name }}
+                </router-link>
+            </strong>
+            </p>
           </div>
 
           <p class="text-sm text-slate-400">{{ post.created_at_formatted }} ago</p>

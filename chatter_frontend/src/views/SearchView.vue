@@ -1,182 +1,325 @@
 <template>
-    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-4">
-        <div class="main-left lg:col-span-3 col-span-4 space-y-4">
-            <div class="bg-gray-950 border border-lime-300 rounded-lg">
-                <div class="p-4 flex space-x-4">  
-                    <input type="search" class="p-4 w-full bg-slate-200 rounded-lg text-slate-950" placeholder="What are you looking for?">
+  <div class="grid grid-cols-4 gap-4 mx-auto max-w-7xl">
+    <div class="col-span-4 space-y-4 main-left lg:col-span-3">
+      <form
+        class="border rounded-lg bg-gray-950 border-lime-300"
+        @submit.prevent="submitForm"
+      >
+        <div class="flex p-4 space-x-4">
+          <input
+            type="search"
+            class="w-full p-4 rounded-lg bg-slate-200 text-slate-950"
+            placeholder="What are you looking for?"
+            v-model="query"
+          />
 
-                               <button
-              href="#"
-              class="mx-2 py-2 px-4 bg-lime-300 text-slate-950 rounded-lg font-medium"
-              >
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-</svg>
-            </button>
-                </div>
-            </div>
-
-            <div class="p-4 bg-gray-950 border border-lime-300 rounded-lg grid grid-cols-4 gap-4">
-                <div class="p-4 text-center bg-gray-900 rounded-lg lg:col-span-1 md:col-span-2 col-span-4">
-                    <img src="https://mighty.tools/mockmind-api/content/human/40.jpg" class="mb-6 rounded-full">
-                
-                    <p class="text-slate-200"><strong>Code With Stein</strong></p>
-
-                    <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-slate-500">182 friends</p>
-                        <p class="text-xs text-slate-500">120 posts</p>
-                    </div>
-                </div>
-
-                <div class="p-4 text-center bg-gray-900 rounded-lg lg:col-span-1 md:col-span-2 col-span-4">
-                    <img src="https://mighty.tools/mockmind-api/content/human/12.jpg" class="mb-6 rounded-full">
-                
-                    <p class="text-slate-200"><strong>Code With Stein</strong></p>
-
-                    <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-slate-500">182 friends</p>
-                        <p class="text-xs text-slate-500">120 posts</p>
-                    </div>
-                </div>
-
-                <div class="p-4 text-center bg-gray-900 rounded-lg lg:col-span-1 md:col-span-2 col-span-4">
-                    <img src="https://mighty.tools/mockmind-api/content/human/16.jpg" class="mb-6 rounded-full">
-                
-                    <p class="text-slate-200"><strong>Code With Stein</strong></p>
-
-                    <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-slate-500">182 friends</p>
-                        <p class="text-xs text-slate-500">120 posts</p>
-                    </div>
-                </div>
-
-                <div class="p-4 text-center bg-gray-900 rounded-lg lg:col-span-1 md:col-span-2 col-span-4">
-                    <img src="https://mighty.tools/mockmind-api/content/human/26.jpg" class="mb-6 rounded-full">
-                
-                    <p class="text-slate-200"><strong>Code With Stein</strong></p>
-
-                    <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-slate-500">182 friends</p>
-                        <p class="text-xs text-slate-500">120 posts</p>
-                    </div>
-                </div>
-                
-                <div class="p-4 text-center bg-gray-900 rounded-lg lg:col-span-1 md:col-span-2 col-span-4">
-                    <img src="https://mighty.tools/mockmind-api/content/human/67.jpg" class="mb-6 rounded-full">
-                
-                    <p class="text-slate-200"><strong>Code With Stein</strong></p>
-
-                    <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-slate-500">182 friends</p>
-                        <p class="text-xs text-slate-500">120 posts</p>
-                    </div>
-                </div>
-            </div>
-
-      <div class="p-4 bg-gray-950 border border-lime-300 rounded-lg">
-        <div class="mb-6 flex items-center justify-between">
-          <div class="flex items-center space-x-6">
-            <img
-              src="https://mighty.tools/mockmind-api/content/human/37.jpg"
-              class="w-[40px] rounded-full"
-            />
-
-            <p class="text-slate-200"><strong>James Colton</strong></p>
-          </div>
-
-          <p class="text-slate-400 text-sm">18 minutes ago</p>
-        </div>
-
-        <p class="text-slate-200">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a
-          arcu at est ullamcorper tempus quis et mauris. Morbi condimentum
-          molestie mauris eget molestie. Duis id orci sed arcu vulputate
-          volutpat vitae ac orci. Vestibulum ornare semper ligula, nec faucibus
-          dui. Etiam leo nisl, commodo et elit at, gravida maximus augue.
-          Integer cursus, mi eget tristique viverra, elit neque sollicitudin ex,
-          quis molestie nibh augue sit amet lacus. Morbi aliquet ultricies est
-          vel feugiat. Morbi efficitur est venenatis, molestie nunc egestas,
-          euismod leo.
-        </p>
-
-        <div class="my-6 flex justify-between">
-          <div class="flex space-x-6">
-            <div class="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 text-slate-200"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                ></path>
-              </svg>
-
-              <span class="text-slate-400 text-xs">82 likes</span>
-            </div>
-
-            <div class="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 text-slate-200"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
-                ></path>
-              </svg>
-
-              <span class="text-slate-400 text-xs">0 comments</span>
-            </div>
-          </div>
-
-          <div>
+          <button
+            class="px-4 py-2 mx-2 font-medium rounded-lg bg-lime-300 text-slate-950 disabled:bg-lime-900 disabled:cursor-not-allowed"
+            :disabled="!query || searchStore.search.isLoading"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6 text-slate-200"
+              class="w-6 h-6"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              ></path>
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
             </svg>
+          </button>
+        </div>
+      </form>
+
+      <template
+        v-if="searchStore.search.isLoading || searchStore.search.isError"
+      >
+        <div
+          class="flex flex-col items-center justify-center h-72 text-slate-200"
+          v-if="searchStore.search.isLoading"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="5rem"
+            height="5rem"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+              opacity="0.5"
+            />
+            <path
+              fill="currentColor"
+              d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"
+            >
+              <animateTransform
+                attributeName="transform"
+                dur="0.75s"
+                repeatCount="indefinite"
+                type="rotate"
+                values="0 12 12;360 12 12"
+              />
+            </path>
+          </svg>
+          <span class="mt-4 text-lg">Searching...</span>
+        </div>
+        <div
+          class="flex flex-col items-center justify-center bg-red-700 border rounded-lg text-slate-200 h-72"
+          v-else-if="searchStore.search.isError"
+        >
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            width="5rem"
+            height="5rem"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+            />
+          </svg>
+
+          <span class="mt-4 text-lg"
+            >Something went wrong :( Please try to search again, or try to
+            logout and login again.</span
+          >
+        </div>
+      </template>
+
+      <template
+        v-else-if="
+          searchStore.search.users.length > 0 ||
+          searchStore.search.posts.length > 0
+        "
+      >
+        <template v-if="searchStore.search.users.length > 0">
+          <div class="w-full border border-slate-700 !mt-6"></div>
+
+          <h2 class="pb-3 text-2xl font-medium text-slate-400">
+            SEARCH RESULTS: IN USERS
+          </h2>
+          <div class="grid grid-cols-4 gap-4">
+            <div
+              class="col-span-4 p-4 text-center border rounded-lg bg-gray-950 border-lime-300 lg:col-span-1 md:col-span-2"
+              v-for="user in searchStore.search.users"
+              :key="user.id"
+            >
+              <div class="p-4 bg-gray-900 rounded-lg">
+                <img
+                  src="https://mighty.tools/mockmind-api/content/human/40.jpg"
+                  class="mb-6 rounded-full"
+                />
+
+                <p class="uppercase text-lime-300">
+                  <strong>
+                    <router-link
+                      :to="{ name: 'user-profile', params: { id: user.id } }"
+                    >
+                      {{ user.name }}
+                    </router-link>
+                  </strong>
+                </p>
+
+                <div class="flex justify-around mt-6 space-x-8">
+                  <p class="text-xs text-slate-400">182 friends</p>
+                  <p class="text-xs text-slate-400">120 posts</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-        </div>
+        </template>
 
-        <div class="main-right lg:col-span-1 col-span-4 space-y-4">
-            <PeopleYouMayKnow />
+        <template v-else-if="searchStore.search.posts.length > 0">
+          <div class="w-full border border-slate-700 !mt-6"></div>
+          <h2 class="pb-3 text-2xl font-medium text-slate-400">
+            SEARCH RESULTS: IN POSTS
+          </h2>
+          <div
+            class="p-4 border rounded-lg bg-gray-950 border-lime-300"
+            v-for="post in searchStore.search.posts"
+            :key="post.id"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center space-x-6">
+                <img
+                  src="https://mighty.tools/mockmind-api/content/human/37.jpg"
+                  class="w-[40px] rounded-full"
+                />
 
-            <Trends />
+                <p class="text-slate-200">
+                  <strong>
+                    <router-link :to="{name: 'user-profile', params: { id: post.created_by.id }}">
+                      {{ post.created_by.name }}
+                    </router-link>
+                  </strong>
+                </p>
+              </div>
+
+              <p class="text-sm text-slate-400">
+                {{ post.created_at_formatted }}
+                ago
+              </p>
+            </div>
+
+            <p class="text-slate-200">
+              {{ post.body }}
+            </p>
+
+            <div class="flex justify-between my-6">
+              <div class="flex space-x-6">
+                <div class="flex items-center space-x-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-slate-200"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    ></path>
+                  </svg>
+
+                  <span class="text-xs text-slate-400">82 likes</span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-slate-200"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
+                    ></path>
+                  </svg>
+
+                  <span class="text-xs text-slate-400">0 comments</span>
+                </div>
+              </div>
+
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 text-slate-200"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </template>
+      </template>
+      <template v-else-if="searchStore.search.hasSearched">
+        <div
+          class="flex flex-col items-center justify-center p-4 text-2xl font-medium h-72 text-slate-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            width="5rem"
+            height="5rem"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+            />
+          </svg>
+          <span class="mt-4 text-lg">
+            Nothing has been found. Try to look for something else.
+          </span>
         </div>
+      </template>
+      <template v-else-if="!searchStore.search.hasSearched">
+        <div
+          class="flex flex-col items-center justify-center p-4 text-2xl font-medium h-72 text-slate-400"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="5rem" height="5rem">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+          </svg>
+          <span class="mt-4 text-lg">
+            Nothing is here yet. Use the search bar above to look for users, or posts. 
+          </span>
+        </div>
+      </template>
     </div>
+
+    <div class="col-span-4 space-y-4 main-right lg:col-span-1">
+      <PeopleYouMayKnow />
+
+      <Trends />
+    </div>
+  </div>
 </template>
 
 <script>
-import PeopleYouMayKnow from '../components/PeopleYouMayKnow.vue'
-import Trends from '../components/Trends.vue'
+import PeopleYouMayKnow from "../components/PeopleYouMayKnow.vue";
+import Trends from "../components/Trends.vue";
+
+import { useSearchStore } from "@/stores/search";
+import { useUserStore } from "@/stores/user";
+import { useToast } from "vue-toastification";
 
 export default {
-    name: 'SearchView',
-    components: {
-        PeopleYouMayKnow,
-        Trends,
-    }
-}
+  name: "SearchView",
+  components: {
+    PeopleYouMayKnow,
+    Trends,
+  },
+  setup() {
+    const searchStore = useSearchStore();
+    const userStore = useUserStore();
+
+    return {
+      searchStore,
+      userStore,
+    };
+  },
+  data() {
+    return {
+      query: "",
+    };
+  },
+  methods: {
+    submitForm() {
+      this.searchStore.searchUsersAndPostsList(
+        this.userStore.user.accessToken,
+        this.query
+      );
+    },
+  },
+  unmounted() {
+    this.searchStore.resetSearch();
+  },
+};
 </script>

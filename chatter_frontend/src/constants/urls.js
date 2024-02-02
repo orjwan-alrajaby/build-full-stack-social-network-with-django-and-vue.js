@@ -5,7 +5,8 @@ const URLS = {
   me: "/api/me/",
   allPosts: "/api/posts/",
   createPost: "/api/posts/create/",
-  userPosts: (id) =>  `/api/posts/by/${id}`
+  userPosts: (id) => `/api/posts/by/${id}`,
+  search: (query) => `/api/search/${query}`
 }
 
 export default URLS
