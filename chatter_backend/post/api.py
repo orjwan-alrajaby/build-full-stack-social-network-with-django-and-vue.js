@@ -12,7 +12,7 @@ from account.serializers import UserSerializer
 
 @api_view(['GET'])
 def get_post_list(request):
-  posts = Post.objects.all()
+  posts = Post.objects.all().order_by('-created_at')
   serializer = PostSerializer(posts, many=True)
   
   
@@ -40,7 +40,7 @@ def create_post(request):
 @api_view(['GET'])
 def get_profile_post_list(request, id):
   # we have no field called "created_by_id" but we do have an _id field on "created_by"
-  posts = Post.objects.filter(created_by_id=id)
+  posts = Post.objects.filter(created_by_id=id).order_by('-created_at')
   user = User.objects.get(pk=id)
   post_serializer = PostSerializer(posts, many=True)
   user_serializer = UserSerializer(user)
