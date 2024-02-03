@@ -13,7 +13,7 @@
           <template v-if="userStore.user.isAuthenticated && userStore.user.id">
             <div class="justify-between hidden menu-center md:space-x-12 lg:flex">
               <router-link :to="{ name: 'home' }"
-                class="flex items-center p-2 text-lime-300">
+                class="flex items-center p-2 text-slate-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                   viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                   class="w-6 h-6">
