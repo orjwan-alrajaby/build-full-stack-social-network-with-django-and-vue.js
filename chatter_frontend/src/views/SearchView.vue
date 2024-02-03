@@ -114,7 +114,6 @@
               v-for="user in searchStore.search.users"
               :key="user.id"
             >
-              <div class="p-4 bg-gray-900 rounded-lg">
                 <img
                   src="https://mighty.tools/mockmind-api/content/human/40.jpg"
                   class="mb-6 rounded-full"
@@ -134,12 +133,11 @@
                   <p class="text-xs text-slate-400">182 friends</p>
                   <p class="text-xs text-slate-400">120 posts</p>
                 </div>
-              </div>
             </div>
           </div>
         </template>
 
-        <template v-else-if="searchStore.search.posts.length > 0">
+        <template v-if="searchStore.search.posts.length > 0">
           <div class="w-full border border-slate-700 !mt-6"></div>
           <h2 class="pb-3 text-2xl font-medium text-slate-400">
             SEARCH RESULTS: IN POSTS

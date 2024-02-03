@@ -5,11 +5,13 @@ import FeedView from "../views/FeedView.vue"
 import MessagesView from "../views/MessagesView.vue"
 import SearchView from "../views/SearchView.vue"
 import UserProfileView from "../views/UserProfileView.vue"
+import UserFriendsView from "../views/UserFriendsView.vue"
 
 const routes = [
   {
     path: '/',
     name: 'home',
+    exact: true,
     component: FeedView
   },
   {
@@ -36,6 +38,11 @@ const routes = [
     path: '/users/:id',
     name: 'user-profile',
     component: UserProfileView
+  },
+  {
+    path: '/users/:id/friends',
+    name: 'user-friends',
+    component: UserFriendsView
   },
   {
     path: '/about',

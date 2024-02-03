@@ -11,7 +11,7 @@ export const useFriendshipsStore = defineStore({
       isError: false,
       error: null,
       addFriend: null,
-    }
+    },
   }),
   actions: {
     async addFriend(accessToken, id) {
