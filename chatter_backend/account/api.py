@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
 from .forms import SignupForm
+from .models import User, FriendshipRequest
 
 
 @api_view(['GET'])
@@ -45,19 +46,11 @@ def signup(request):
     return  JsonResponse({'message':'Unexpected error.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['POST'])
+def add_friend(request, id):
+  
+  user = User.objects.get(pk=id)
+  
+  friendship_request = FriendshipRequest(created_for=user, created_by=request.user)
 
-
-
-# 
-# {
-#     "message": "something went wrong.",
-#     "status": 400,
-#     "errors": {
-#         "email": [
-#             "Enter a valid email address."
-#         ],
-#         "password2": [
-#             "The two password fields didn\u2019t match."
-#         ]
-#     }
-# }
+  return JsonResponse({'message': 'Friend request has been sent!'}, status=status.HTTP_201_CREATED)

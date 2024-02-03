@@ -157,6 +157,24 @@
             <p class="text-xs text-slate-400">182 friends</p>
             <p class="text-xs text-slate-400">120 posts</p>
         </div>
+        <div v-if="this.$route.params.id !== userStore.user.id" class="mt-8">
+           <button type="button" @click.prevent="addFriend" class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-lime-900 disabled:cursor-not-allowed" :disabled="friendshipsStore.friendships.isLoading">
+            <template v-if="friendshipsStore.friendships.isLoading">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" class="mx-auto">
+              	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
+              	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+              		<animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+              	</path>
+              </svg>
+            </template>
+            <template v-else>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+              </svg>
+              <span class="ml-2">Add friend</span>
+            </template>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -167,17 +185,20 @@ import PeopleYouMayKnow from "../components/PeopleYouMayKnow.vue";
 import Trends from "../components/Trends.vue";
 import { usePostsStore } from '@/stores/posts';
 import { useUserStore } from '@/stores/user';
+import {useFriendshipsStore} from '@/stores/friendships';
 import { useToast } from "vue-toastification";
 
 export default {
   setup() {
     const postsStore = usePostsStore();
     const userStore = useUserStore();
+    const friendshipsStore = useFriendshipsStore();
     const toast = useToast();
 
     return {
       postsStore,
       userStore,
+      friendshipsStore,
       toast
     }
   },
@@ -200,11 +221,27 @@ export default {
   },
   methods: {
     submitForm() {
-      this.postsStore.createPost(this.userStore.user.accessToken, this.body, this.toast).then((newPost) => {
+      this.postsStore.createPost(this.userStore.user.accessToken, this.body, this.toast).then(() => {
         this.body = ""
-        this.postsStore.updatePostList(this.userStore.user.id, this.$route.params.id, newPost)
+        this.postsStore.updatePostList(this.userStore.user.id, this.$route.params.id)
       });
+    },
+    async addFriend() {
+      this.friendshipsStore.addFriend(this.userStore.user.accessToken, this.$route.params.id).then((res) => {
+        if (res.status === "success") {
+          this.toast.success(`Friend request has been sent successfully!`, {
+            toastClassName: "!bg-emerald-700 !text-slate-200"
+          });
+        } else {
+          this.toast.error(`Friend request has failed to send. Reload the page and try again.`, {
+            toastClassName: "!bg-red-700 !text-slate-200",
+          });
+        }
+      })
     }
+  },
+  unmounted() {
+    this.friendshipsStore.resetFriendshipsStore();
   }
 };
 </script>
