@@ -7,7 +7,8 @@ const URLS = {
   createPost: "/api/posts/create/",
   userPosts: (id) => `/api/posts/by/${id}`,
   search: (query) => `/api/search/${query}`,
-  addFriend: (id) => `/api/friends/add/${id}/`
+  addFriend: (id) => `/api/friends/${id}/add/`,
+  getFriendsAndRequests: (id) => `/api/friends/${id}/`
 }
 
 export default URLS

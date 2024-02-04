@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 
 from .forms import SignupForm
 from .models import User, FriendshipRequest
+from .serializers import UserSerializer, FriendshipRequestSerializer
 
 
 @api_view(['GET'])
@@ -51,6 +52,28 @@ def add_friend(request, id):
   
   user = User.objects.get(pk=id)
   
-  friendship_request = FriendshipRequest(created_for=user, created_by=request.user)
+  friendship_request = FriendshipRequest.objects.create(created_for=user, created_by=request.user)
 
   return JsonResponse({'message': 'Friend request has been sent!'}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def get_friends_and_requests(request, id):
+  user = User.objects.get(pk=id)
+  requests = []
+  
+  # get friend requests sent to the currently logged in user
+  if user == request.user:
+    requests = FriendshipRequest.objects.filter(created_for=request.user)
+    
+  friends = user.friends.all()
+  
+  user_serializer = UserSerializer(user)
+  friends_serializer = UserSerializer(friends, many=True)
+  requests_serializer = FriendshipRequestSerializer(requests, many=True)
+  
+  return JsonResponse({
+     'user': user_serializer.data,
+     'requests': requests_serializer.data,
+     'friends': friends_serializer.data,
+  }, safe=False, status=status.HTTP_200_OK)

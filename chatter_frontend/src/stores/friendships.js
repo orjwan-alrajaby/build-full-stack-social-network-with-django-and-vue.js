@@ -7,33 +7,73 @@ export const useFriendshipsStore = defineStore({
 
   state: () => ({
     friendships: {
-      isLoading: false,
-      isError: false,
-      error: null,
-      addFriend: null,
+      addFriend: {
+        isLoading: false,
+        isError: false,
+        error: null,
+        data: null,
+      },
+      getFriendsAndRequests: {
+        isLoading: false,
+        isError: false,
+        error: null,
+        user: {},
+        friends: [],
+        requests: []
+      }
     },
   }),
   actions: {
     async addFriend(accessToken, id) {
-      this.friendships.isLoading = true
+      this.friendships.addFriend.isLoading = true
       try {
         axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
         const response = await axios.post(URLS.addFriend(id));
-        this.friendships.addFriend = response.data.response;
+        this.friendships.addFriend.data = response.data;
         return {status: "success"};
       } catch (error) {
-        this.friendships.isError = true;
-        this.friendships.error = error;
+        this.friendships.addFriend.isError = true;
+        this.friendships.addFriend.error = error;
         return { status: "error" };
       } finally {
-        this.friendships.isLoading = false;
+        this.friendships.addFriend.isLoading = false;
+      }
+    },
+    async getFriendsAndRequests(accessToken, id) {
+      this.friendships.getFriendsAndRequests.isLoading = true
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+        const response = await axios.get(URLS.getFriendsAndRequests(id));
+        console.log("Response is here! 123", {
+          response
+        })
+        this.friendships.getFriendsAndRequests.user = response.data.user;
+        this.friendships.getFriendsAndRequests.friends = response.data.friends;
+        this.friendships.getFriendsAndRequests.requests = response.data.requests;
+        return {status: "success"};
+      } catch (error) {
+        this.friendships.getFriendsAndRequests.isError = true;
+        this.friendships.getFriendsAndRequests.error = error;
+        return { status: "error" };
+      } finally {
+        this.friendships.getFriendsAndRequests.isLoading = false;
       }
     },
     resetFriendshipsStore() {
-      this.friendships.addFriend = null;
-      this.friendships.isLoading = false;
-      this.friendships.isError = false;
-      this.friendships.error = null;
+      this.friendships.addFriend = {
+        isLoading: false,
+        isError: false,
+        error: null,
+        data: null,        
+      };
+      this.friendships.getFriendsAndRequests = {
+        isLoading: false,
+        isError: false,
+        error: null,  
+        user: {},
+        friends: [],
+        requests: []
+      }
     }
   }
 })

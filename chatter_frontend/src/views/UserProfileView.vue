@@ -158,8 +158,8 @@
             <p class="text-xs text-slate-400">120 posts</p>
         </div>
         <div v-if="this.$route.params.id !== userStore.user.id" class="mt-8">
-           <button type="button" @click.prevent="addFriend" class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-lime-900 disabled:cursor-not-allowed" :disabled="friendshipsStore.friendships.isLoading">
-            <template v-if="friendshipsStore.friendships.isLoading">
+           <button type="button" @click.prevent="addFriend" class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-lime-900 disabled:cursor-not-allowed" :disabled="friendshipsStore.friendships.addFriend.isLoading">
+            <template v-if="friendshipsStore.friendships.addFriend.isLoading">
               <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" class="mx-auto">
               	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
               	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
