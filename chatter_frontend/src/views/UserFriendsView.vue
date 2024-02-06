@@ -44,7 +44,7 @@
               0 && !friendshipsStore.friendships.getFriendsAndRequests.isLoading
           "
         >
-          My Friends ({{
+          Friends ({{
             friendshipsStore.friendships.getFriendsAndRequests.friends.length
           }})
         </h2>
@@ -77,7 +77,11 @@
               </p>
 
               <div class="flex justify-around mt-6 space-x-8">
-                <p class="text-xs text-slate-400">182 friends</p>
+                <p class="text-xs text-slate-400">
+                  <router-link :to="{ name: 'user-friends', params: { id: friend.id } }">
+                    {{ friend.friends_count }} friends
+                  </router-link>
+                </p>
                 <p class="text-xs text-slate-400">120 posts</p>
               </div>
               <div class="space-x-3">
@@ -115,19 +119,23 @@
         </div>
       </div>
     </div>
-    <div class="col-span-5 space-y-4 main-right xl:col-span-1 md:col-span-2">
+    <template v-if="userStore.user.id === $route.params.id">
+          <div class="col-span-5 space-y-4 main-right xl:col-span-1 md:col-span-2">
       <template
         v-if="
           !friendshipsStore.friendships.getFriendsAndRequests.isLoading &&
-          friendshipsStore.friendships.getFriendsAndRequests.requests.length > 0
+          friendshipsStore.friendships.getFriendsAndRequests.receivedRequests.length > 0
         "
       >
         <IncomingFriendRequests
-          v-if="friendshipsStore.friendships.getFriendsAndRequests.requests"
-          :list="friendshipsStore.friendships.getFriendsAndRequests.requests"
+          v-if="friendshipsStore.friendships.getFriendsAndRequests.receivedRequests.length > 0"
+          :list="friendshipsStore.friendships.getFriendsAndRequests.receivedRequests"
         />
 
-        <OutgoingFriendRequests :list="[]" />
+        <OutgoingFriendRequests
+        v-if="friendshipsStore.friendships.getFriendsAndRequests.sentRequests.length > 0"
+         :list="friendshipsStore.friendships.getFriendsAndRequests.sentRequests"
+         />
 
         <PeopleYouMayKnow />
       </template>
@@ -168,6 +176,7 @@
         </div>
       </template>
     </div>
+    </template>
   </div>
 </template>
 
@@ -224,6 +233,13 @@ export default {
         });
     },
   },
+  watch: {
+    $route(to, from) {
+      if (this.userStore.user.isAuthenticated && from.name === to.name && (from.params.id !== to.params.id)) {
+        this.getFriendsAndRequests();
+      }
+    } 
+   },
   unmounted() {
     this.friendshipsStore.resetFriendshipsStore();
   },

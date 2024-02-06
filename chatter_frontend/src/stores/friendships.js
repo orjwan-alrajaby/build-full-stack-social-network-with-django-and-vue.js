@@ -19,7 +19,20 @@ export const useFriendshipsStore = defineStore({
         error: null,
         user: {},
         friends: [],
-        requests: []
+        sentRequests: [],
+        receivedRequests: []
+      },
+      friendRequest: {
+        isLoading: false,
+        isError: false,
+        error: null,
+        data: null,
+      },
+      deleteRequest: {
+        isLoading: false,
+        isError: false,
+        error: null,
+        data: null, 
       }
     },
   }),
@@ -49,7 +62,8 @@ export const useFriendshipsStore = defineStore({
         })
         this.friendships.getFriendsAndRequests.user = response.data.user;
         this.friendships.getFriendsAndRequests.friends = response.data.friends;
-        this.friendships.getFriendsAndRequests.requests = response.data.requests;
+        this.friendships.getFriendsAndRequests.receivedRequests = response.data.received_requests;
+        this.friendships.getFriendsAndRequests.sentRequests = response.data.sent_requests;
         return {status: "success"};
       } catch (error) {
         this.friendships.getFriendsAndRequests.isError = true;
@@ -59,6 +73,52 @@ export const useFriendshipsStore = defineStore({
         this.friendships.getFriendsAndRequests.isLoading = false;
       }
     },
+    async respondToFriendRequest(accessToken, status, senderId) {
+      this.friendships.friendRequest.isLoading = true
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+        const response = await axios.post(URLS.respondToFriendRequest(status, senderId));
+        this.friendships.friendRequest.data = response.data;
+        return { status: "success" };
+      } catch (error) {
+        this.friendships.friendRequest.isError = true;
+        this.friendships.friendRequest.error = error;
+        return { status: "error" };
+      } finally {
+        this.friendships.friendRequest.isLoading = false;
+      }
+    },
+    async respondToFriendRequest(accessToken, status, senderId) {
+      this.friendships.friendRequest.isLoading = true
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+        const response = await axios.post(URLS.respondToFriendRequest(status, senderId));
+        this.friendships.friendRequest.data = response.data;
+        return { status: "success" };
+      } catch (error) {
+        this.friendships.friendRequest.isError = true;
+        this.friendships.friendRequest.error = error;
+        return { status: "error" };
+      } finally {
+        this.friendships.friendRequest.isLoading = false;
+      }
+    },
+    async cancelSentRequest(accessToken, receiverId) {
+      this.friendships.deleteRequest.isLoading = true
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+        const response = await axios.delete(URLS.deleteSentRequest(receiverId));
+        this.friendships.deleteRequest.data = response.data;
+        this.friendships.getFriendsAndRequests.sentRequests = [...this.friendships.getFriendsAndRequests.sentRequests.filter(ele => ele.created_for.id !== receiverId)]
+        return { status: "success" };
+      } catch (error) {
+        this.friendships.deleteRequest.isError = true;
+        this.friendships.deleteRequest.error = error;
+        return { status: "error" };
+      } finally {
+        this.friendships.deleteRequest.isLoading = false;
+      }
+     },
     resetFriendshipsStore() {
       this.friendships.addFriend = {
         isLoading: false,
@@ -72,7 +132,8 @@ export const useFriendshipsStore = defineStore({
         error: null,  
         user: {},
         friends: [],
-        requests: []
+        receivedRequests: [],
+        sentRequests: []
       }
     }
   }

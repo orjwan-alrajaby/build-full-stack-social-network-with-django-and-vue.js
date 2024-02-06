@@ -91,6 +91,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   
   friends = models.ManyToManyField('self')
   
+  friends_count = models.IntegerField(default=0)
+  
   is_active = models.BooleanField(default=True)
   
   is_superuser = models.BooleanField(default=False)
@@ -106,6 +108,16 @@ class User(AbstractBaseUser, PermissionsMixin):
   USERNAME_FIELD = 'email'
   EMAIL_FIELD = 'email'
   REQUIRED_FIELDS = []
+  
+   # @property
+  def is_friend_of_user(self, requesting_user):
+      return self.friends.filter(id=requesting_user.id).exists()
+  
+  def has_sent_friend_request_to(self, target_user):
+      return self.created_friendshiprequests.filter(created_for=target_user, status=FriendshipRequest.SENT).exists()
+  
+  def has_received_friend_request_from(self, requesting_user):
+      return self.received_friendshiprequests.filter(created_by=requesting_user, status=FriendshipRequest.SENT).exists()
   
 # above code's explanation 
 

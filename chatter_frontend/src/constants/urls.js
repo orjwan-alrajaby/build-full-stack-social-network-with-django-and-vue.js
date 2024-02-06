@@ -8,7 +8,9 @@ const URLS = {
   userPosts: (id) => `/api/posts/by/${id}`,
   search: (query) => `/api/search/${query}`,
   addFriend: (id) => `/api/friends/${id}/add/`,
-  getFriendsAndRequests: (id) => `/api/friends/${id}/`
+  getFriendsAndRequests: (id) => `/api/friends/${id}/`,
+  respondToFriendRequest: (status, senderId) => `/api/friends/request/${senderId}/${status}/`,
+  deleteSentRequest: (receiverId) => `/api/friends/request/${receiverId}/delete/`,
 }
 
 export default URLS

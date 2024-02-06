@@ -147,18 +147,38 @@
           <span class="mt-4 text-lg">Something went wrong :( Please press "CTRL + R" to refresh, or try to logout and login again.</span>
       </div>
     </div>
-    <div class="order-first col-span-3 space-y-4 main-right lg:col-span-1 lg:order-last">
-      <div class="px-4 py-8 text-center border rounded-lg bg-gray-950 border-lime-300 text-slate-200">
+    <div class="order-first col-span-3 main-right lg:col-span-1 lg:order-last">
+      <div class="px-4 py-8 space-y-6 text-center border rounded-lg bg-gray-950 border-lime-300 text-slate-200">
         <img src="https://mighty.tools/mockmind-api/content/human/43.jpg" class="block w-full mx-auto mb-6 rounded-full max-w-40">
           
         <p class="mb-4 text-xl uppercase text-lime-300"><strong>{{ postsStore.posts.userPosts.author.name }}</strong></p>
         <p class="font-medium text-md text-slate-200" v-if="this.$route.params.id === userStore.user.id">{{ postsStore.posts.userPosts.author.email }}</p>
         <div class="flex justify-center mt-6 space-x-8">
-            <p class="text-xs text-slate-400">182 friends</p>
+            <p class="text-xs text-slate-400">{{ postsStore.posts.userPosts.author.friends_count }} friends</p>
             <p class="text-xs text-slate-400">120 posts</p>
         </div>
         <div v-if="this.$route.params.id !== userStore.user.id" class="mt-8">
-           <button type="button" @click.prevent="addFriend" class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-lime-900 disabled:cursor-not-allowed" :disabled="friendshipsStore.friendships.addFriend.isLoading">
+          <template v-if="postsStore.posts.userPosts.author.is_friend_of_user">
+            <div class="flex items-center justify-center h-10 px-4 py-2 mx-auto font-medium rounded-lg w-fit bg-lime-300 text-slate-900">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+              </svg>
+              <span class="ml-2">Friends</span>
+            </div>
+          </template>
+          <template v-else-if="postsStore.posts.userPosts.author.has_sent_friend_request_to">
+            <div class="flex items-center justify-center h-10 px-4 py-2 mx-auto font-medium rounded-lg w-fit bg-lime-300 text-slate-900">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+              </svg>
+              <span class="ml-2">Sent friend request</span>
+            </div>
+          </template>
+          <template v-else-if="postsStore.posts.userPosts.author.has_received_friend_request_from">
+            respond to friend request
+          </template>
+          <template v-else>
+            <button type="button" @click.prevent="addFriend" class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-lime-900 disabled:cursor-not-allowed" :disabled="friendshipsStore.friendships.addFriend.isLoading">
             <template v-if="friendshipsStore.friendships.addFriend.isLoading">
               <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" class="mx-auto">
               	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
@@ -174,6 +194,7 @@
               <span class="ml-2">Add friend</span>
             </template>
           </button>
+          </template>
         </div>
       </div>
     </div>
@@ -213,6 +234,7 @@ export default {
     }
   },
   mounted() {
+    console.log("mounted!!!")
     if (!this.$route.params.id) {
       this.$router.push({name: 'feed'})
     } else if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken && this.$route.params.id) {
@@ -240,7 +262,15 @@ export default {
       })
     }
   },
+  watch: {
+    $route(to, from) {
+      if (this.userStore.user.isAuthenticated && from.name === to.name && (from.params.id !== to.params.id)) {
+        this.postsStore.getUserPosts(this.userStore.user.accessToken, to.params.id)
+      }
+    } 
+   },
   unmounted() {
+    console.log("unmounted!!!")
     this.friendshipsStore.resetFriendshipsStore();
   }
 };

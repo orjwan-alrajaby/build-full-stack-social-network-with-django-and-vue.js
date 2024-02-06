@@ -23,13 +23,18 @@
           </strong>
         </p>
         <div class="flex justify-around mt-6 space-x-8">
-          <p class="text-xs text-slate-400">182 friends</p>
+          <p class="text-xs text-slate-400">
+            <router-link :to="{ name: 'user-friends', params: { id: item.created_by.id } }">
+              {{ item.created_by.friends_count }} friends
+            </router-link>
+          </p>
           <p class="text-xs text-slate-400">120 posts</p>
         </div>
         <div class="space-x-3">
           <button
-            href="#"
+            id="reject-request-button"
             class="w-10 h-10 text-xs font-medium border rounded-full border-lime-300 text-lime-300"
+            @click="handleFriendshipRequest('rejected', item.created_by.id)"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +50,9 @@
             </svg>
           </button>
           <button
+            id="accept-request-button"
             class="w-10 h-10 text-xs font-medium rounded-full bg-lime-300 text-slate-900"
+            @click="handleFriendshipRequest('accepted', item.created_by.id)"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -66,12 +73,39 @@
 </template>
 
 <script>
+import { useFriendshipsStore } from '@/stores/friendships';
+import { useUserStore } from '@/stores/user';
+import { useToast } from 'vue-toastification';
+
 export default {
+  setup() { 
+    const friendshipsStore = useFriendshipsStore();
+    const userStore = useUserStore();
+    const toast = useToast();
+
+    return {
+      friendshipsStore,
+      userStore,
+      toast
+    }
+  },
   props: {
-    list: [],
+    list: Array,
   },
-  mounted() {
-    console.log("Meow meow meow", this.list);
-  },
+  methods: {
+    handleFriendshipRequest(status, senderId) {
+      this.friendshipsStore.respondToFriendRequest(this.userStore.user.accessToken, status, senderId).then((res) => {
+        if (res.status === "success") {
+          this.toast.success(`Friend request has been ${status} successfully!`, {
+            toastClassName: "!bg-emerald-700 !text-slate-200"
+          });
+        } else {
+          this.toast.error(`Failed to respond to friend request. Reload the page and try again.`, {
+            toastClassName: "!bg-red-700 !text-slate-200",
+          });          
+        }
+      })
+    }
+  }
 };
 </script>

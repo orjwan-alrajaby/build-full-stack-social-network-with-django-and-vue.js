@@ -14,6 +14,7 @@ def search_users_and_posts_list(request, query):
   posts = Post.objects.filter(body__icontains=query).order_by('-created_at')
   
   posts_serializer = PostSerializer(posts, many=True)
-  users_serializer = UserSerializer(users, many=True)
+  users_serializer = UserSerializer(
+      users, many=True, context={'request': request})
 
   return JsonResponse({'users': users_serializer.data, 'posts': posts_serializer.data}, safe=False)
