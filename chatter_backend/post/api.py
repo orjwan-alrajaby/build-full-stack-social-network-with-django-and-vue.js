@@ -10,15 +10,38 @@ from .forms import PostForm
 from account.models import User
 from account.serializers import UserSerializer
 
+
+
 @api_view(['GET'])
 def get_post_list(request):
-  posts = Post.objects.all().order_by('-created_at')
-  serializer = PostSerializer(posts, many=True)
+  users_ids = [request.user.id]
   
+  for user in request.user.friends.all():
+    users_ids.append(user.id)
+  
+  posts = Post.objects.filter(created_by_id__in=list(users_ids)).order_by('-created_at')
+  
+  serializer = PostSerializer(posts, many=True)
   
   return JsonResponse({'data': serializer.data})
 
 
+# code above explanation
+
+# In Django ORM, the double underscores (__) are used to traverse relationships between models and access related fields. Here's what each part of created_by_id__in means:
+
+# created_by_id: This assumes that Post model has a field named created_by_id that stores the ID of the user who created the post. This is usually a ForeignKey field linking to the User model or whatever model represents users in your application.
+
+# __in: This is a lookup that checks if the value of the field (created_by_id) is in a given list of values.
+
+# list(users_ids): This converts the list of user IDs (users_ids) into a Python list. users_ids contains the IDs of the current user and all their friends.
+
+# So, created_by_id__in=list(users_ids) translates to "retrieve posts where the created_by_id is in the list of IDs of the current user and their friends".
+
+# In other words, this part of the query ensures that the posts returned are authored by either the current user or any of their friends, as specified in users_ids. This is an efficient way to filter posts based on the authorship of the posts and the relationships between users.
+
+#=================================================
+#==================================================
 @api_view(['POST'])
 def create_post(request):
   form = PostForm(request.data)
