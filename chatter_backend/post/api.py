@@ -3,14 +3,12 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
 
-from .models import Post
+from .models import Post, Like
 from .serializers import PostSerializer
 from .forms import PostForm
 
 from account.models import User
 from account.serializers import UserSerializer
-
-
 
 @api_view(['GET'])
 def get_post_list(request):
@@ -21,7 +19,7 @@ def get_post_list(request):
   
   posts = Post.objects.filter(created_by_id__in=list(users_ids)).order_by('-created_at')
   
-  serializer = PostSerializer(posts, many=True)
+  serializer = PostSerializer(posts, many=True, context={'request': request})
   
   return JsonResponse({'data': serializer.data})
 
@@ -66,7 +64,33 @@ def get_profile_post_list(request, id):
   posts = Post.objects.filter(created_by_id=id).order_by('-created_at')
   user = User.objects.get(pk=id)
   post_serializer = PostSerializer(
-      posts, many=True)
+      posts, many=True, context={'request': request})
   user_serializer = UserSerializer(user, context={'request': request})
 
   return JsonResponse({'author': user_serializer.data, 'posts': post_serializer.data}, safe=False)
+
+
+@api_view(['POST'])
+def create_like_for_post(request, id):
+  
+  post = Post.objects.get(pk=id)
+  like_exists = post.likes.filter(
+      created_by=request.user).exists()
+
+  if not like_exists: 
+    like = Like.objects.create(created_by=request.user)
+    post.likes.add(like)
+    post.likes_count = post.likes_count + 1
+
+    post.save()
+
+    return JsonResponse({'message': 'Post liked successfully!'}, status=status.HTTP_201_CREATED)
+  else:
+    # Delete the existing like record
+    existing_like = post.likes.get(created_by=request.user)
+    existing_like.delete()
+
+    # Decrement the likes count
+    post.likes_count = post.likes_count - 1
+    post.save()
+    return JsonResponse({'message': 'Post unliked successfully!'}, status=status.HTTP_204_NO_CONTENT)
