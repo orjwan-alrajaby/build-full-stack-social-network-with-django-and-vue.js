@@ -11,7 +11,8 @@ const URLS = {
   getFriendsAndRequests: (id) => `/api/friends/${id}/`,
   respondToFriendRequest: (status, senderId) => `/api/friends/request/${senderId}/${status}/`,
   deleteSentRequest: (receiverId) => `/api/friends/request/${receiverId}/delete/`,
-  likePost: (id) => `/api/posts/${id}/`
+  likePost: (id) => `/api/posts/${id}/`,
+  createComment: (postId) => `/api/posts/${postId}/comments/create/`,
 }
 
 export default URLS

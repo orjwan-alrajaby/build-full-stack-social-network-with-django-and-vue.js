@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework import status
 
 from .models import Post, Like
-from .serializers import PostSerializer
-from .forms import PostForm
+from .serializers import PostSerializer, CommentSerializer
+from .forms import PostForm, CommentForm
 
 from account.models import User
 from account.serializers import UserSerializer
@@ -55,8 +55,8 @@ def create_post(request):
     return JsonResponse({
       'message': "Bad request. Post data is not valid.",
       'status': status.HTTP_400_BAD_REQUEST,
-          'errors': form.errors
-      })
+      'errors': form.errors
+    })
 
 @api_view(['GET'])
 def get_profile_post_list(request, id):
@@ -94,3 +94,28 @@ def create_like_for_post(request, id):
     post.likes_count = post.likes_count - 1
     post.save()
     return JsonResponse({'message': 'Post unliked successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+    
+@api_view(['POST'])
+def create_comment_on_post(request, id):
+  form = CommentForm(request.data)
+  post = Post.objects.get(pk=id)
+
+  if form.is_valid():
+    comment = form.save(commit=False)
+    comment.created_by = request.user
+    comment.save()
+    
+    post.comments.add(comment)
+    
+    post.save();
+    
+    serializer = CommentSerializer(comment)
+    return JsonResponse({'data': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
+
+  return JsonResponse({
+    'message': "Bad request. Post data is not valid.",
+    'status': status.HTTP_400_BAD_REQUEST,
+    'errors': form.errors
+  })
+
