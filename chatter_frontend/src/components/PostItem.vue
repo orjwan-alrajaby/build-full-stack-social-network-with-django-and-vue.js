@@ -152,8 +152,9 @@ export default {
   },
   data() {
     return {
-      showComments: true,
-      renderComments: true
+      showComments: false,
+      renderComments: false,
+      post_is_commented_on: false
     };
   },
   methods: {

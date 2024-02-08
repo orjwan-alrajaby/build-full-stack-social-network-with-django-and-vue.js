@@ -13,6 +13,7 @@ const URLS = {
   deleteSentRequest: (receiverId) => `/api/friends/request/${receiverId}/delete/`,
   likePost: (id) => `/api/posts/${id}/`,
   createComment: (postId) => `/api/posts/${postId}/comments/create/`,
+  getPostCommentsList: (postId) => `/api/posts/${postId}/comments/`,
 }
 
 export default URLS

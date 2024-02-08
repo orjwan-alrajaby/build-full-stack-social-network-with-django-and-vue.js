@@ -111,11 +111,21 @@ def create_comment_on_post(request, id):
     post.save();
     
     serializer = CommentSerializer(comment)
-    return JsonResponse({'data': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
+    return JsonResponse({'comment': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
 
   return JsonResponse({
     'message': "Bad request. Post data is not valid.",
     'status': status.HTTP_400_BAD_REQUEST,
     'errors': form.errors
   })
+
+
+@api_view(['GET'])
+def get_post_comments_list(request, id):
+  post = Post.objects.get(pk=id)
+  comments = post.comments.all().order_by('-created_at');
+  
+  serializer = CommentSerializer(comments, many=True)
+
+  return JsonResponse({'comments': serializer.data}, safe=False, status=status.HTTP_200_OK)
 
