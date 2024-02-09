@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
   class Meta:
     model = Post
     fields = ('id', 'body', 'created_by', 'created_at_formatted',
-              'likes_count', 'is_liked', 'has_commented')
+              'likes_count', 'is_liked', 'comments_count', 'has_commented')
 
   def get_is_liked(self, obj):
    request = self.context.get('request')
@@ -38,7 +38,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
   class Meta:
     model = Post
     fields = ('id', 'body', 'created_by', 'created_at_formatted',
-              'likes_count', 'is_liked', 'has_commented',)
+              'likes_count', 'is_liked', 'comments_count', 'has_commented',)
 
   def get_is_liked(self, obj):
    request = self.context.get('request')
@@ -49,5 +49,5 @@ class PostDetailSerializer(serializers.ModelSerializer):
   def get_has_commented(self, obj):
     request = self.context.get('request')
     if request and request.user.is_authenticated:
-       return obj.comments.filter(created_by=request.user).exists()
+       return obj.is_commented_on_by_user(request.user)
     return False

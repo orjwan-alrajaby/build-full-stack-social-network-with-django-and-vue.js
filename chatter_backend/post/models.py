@@ -50,3 +50,6 @@ class Post(models.Model):
   
   def is_liked_by_user(self, user):
     return self.likes.filter(created_by=user).exists()
+
+  def is_commented_on_by_user(self, user):
+    return self.comments.filter(created_by=user).exists()

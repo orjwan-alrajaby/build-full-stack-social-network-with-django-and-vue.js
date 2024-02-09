@@ -106,6 +106,8 @@ def create_comment_on_post(request, id):
     comment.created_by = request.user
     comment.save()
     
+    
+    post.comments_count = post.comments_count + 1
     post.comments.add(comment)
     
     post.save();
