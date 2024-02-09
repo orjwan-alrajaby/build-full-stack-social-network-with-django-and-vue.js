@@ -155,3 +155,25 @@ def create_like_for_comment(request, post_id, comment_id):
     comment.likes_count = comment.likes_count - 1
     comment.save()
     return JsonResponse({'message': 'Comment unliked successfully!'}, status=status.HTTP_204_NO_CONTENT)
+  
+  
+@api_view(['DELETE'])
+def delete_comment_on_post(request, post_id, comment_id):
+  
+  post = Post.objects.get(pk=post_id)
+  comment_exists = post.comments.filter(
+      id=comment_id, created_by=request.user).exists()
+  
+  if comment_exists:
+    # Delete the existing comment record
+    comment = post.comments.get(id=comment_id, created_by=request.user)
+    
+    comment.delete()
+
+    # Decrement the comments count
+    post.comments_count = post.comments_count - 1
+    post.save()
+        
+    return JsonResponse({'message': 'Comment deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+  else:
+    return JsonResponse({'message': 'Comment already does not exist!'}, status=status.HTTP_409_CONFLICT)

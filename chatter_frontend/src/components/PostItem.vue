@@ -73,7 +73,7 @@
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   class="w-6 h-6 text-lime-300"
-                  v-if="post.has_commented"
+                  v-if="post.comments_count > 0 && post.has_commented"
                 >
                   <path
                     fill-rule="evenodd"
@@ -119,7 +119,7 @@
           </div>
         </div>
       </div>
-      <Comments v-if="renderComments" v-show="showComments" :postId="post.id"/>
+      <Comments v-if="renderComments" v-show="showComments" :postId="post.id" />
     </div>
   </div>
 </template>
