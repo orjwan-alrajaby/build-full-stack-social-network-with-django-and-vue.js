@@ -14,6 +14,7 @@ const URLS = {
   likePost: (id) => `/api/posts/${id}/`,
   createComment: (postId) => `/api/posts/${postId}/comments/create/`,
   getPostCommentsList: (postId) => `/api/posts/${postId}/comments/`,
+  likeComment: (postId, commentId) => `/api/posts/${postId}/comments/${commentId}/`,
 }
 
 export default URLS

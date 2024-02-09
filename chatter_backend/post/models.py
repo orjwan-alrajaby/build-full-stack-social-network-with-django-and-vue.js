@@ -25,9 +25,14 @@ class Comment(models.Model):
   created_by = models.ForeignKey(
       User, related_name="comments", on_delete=models.CASCADE)
   created_at = models.DateTimeField(auto_now_add=True)
+  likes = models.ManyToManyField(Like, blank=True)
+  likes_count = models.IntegerField(default=0)
   
   def created_at_formatted(self):
     return timesince(self.created_at)
+  
+  def is_liked_by_user(self, user):
+    return self.likes.filter(created_by=user).exists()
 
 class Post(models.Model):
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

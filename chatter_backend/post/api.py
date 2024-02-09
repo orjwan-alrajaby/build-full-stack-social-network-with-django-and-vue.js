@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
 
-from .models import Post, Like
+from .models import Post, Like, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .forms import PostForm, CommentForm
 
@@ -127,7 +127,31 @@ def get_post_comments_list(request, id):
   post = Post.objects.get(pk=id)
   comments = post.comments.all().order_by('-created_at');
   
-  serializer = CommentSerializer(comments, many=True)
+  serializer = CommentSerializer(comments, many=True, context={'request': request})
 
   return JsonResponse({'comments': serializer.data}, safe=False, status=status.HTTP_200_OK)
 
+
+@api_view(['POST'])
+def create_like_for_comment(request, post_id, comment_id):
+  comment = Comment.objects.get(pk=comment_id, post__pk=post_id)
+  like_exists = comment.likes.filter(
+      created_by=request.user).exists()
+
+  if not like_exists: 
+    like = Like.objects.create(created_by=request.user)
+    comment.likes.add(like)
+    comment.likes_count = comment.likes_count + 1
+
+    comment.save()
+
+    return JsonResponse({'message': 'Comment liked successfully!'}, status=status.HTTP_201_CREATED)
+  else:
+    # Delete the existing like record
+    existing_like = comment.likes.get(created_by=request.user)
+    existing_like.delete()
+
+    # Decrement the likes count
+    comment.likes_count = comment.likes_count - 1
+    comment.save()
+    return JsonResponse({'message': 'Comment unliked successfully!'}, status=status.HTTP_204_NO_CONTENT)

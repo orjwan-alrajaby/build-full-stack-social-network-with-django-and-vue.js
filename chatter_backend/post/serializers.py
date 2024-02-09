@@ -26,10 +26,16 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
   created_by = UserSerializer(read_only=True)
-  
+  is_liked = serializers.SerializerMethodField()
   class Meta:
     model = Comment
-    fields = ('id', 'body', 'created_by', 'created_at_formatted',)
+    fields = ('id', 'body', 'created_by', 'created_at_formatted', 'is_liked', 'likes_count',)
+    
+  def get_is_liked(self, obj):
+   request = self.context.get('request')
+   if request and request.user.is_authenticated:
+       return obj.is_liked_by_user(request.user)
+   return False
     
 class PostDetailSerializer(serializers.ModelSerializer):
   created_by = UserSerializer(read_only=True)
