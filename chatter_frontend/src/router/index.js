@@ -6,6 +6,7 @@ import MessagesView from "../views/MessagesView.vue"
 import SearchView from "../views/SearchView.vue"
 import UserProfileView from "../views/UserProfileView.vue"
 import UserFriendsView from "../views/UserFriendsView.vue"
+import PostDetailsView from "@/views/PostDetailsView.vue"
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/users/:id/friends',
     name: 'user-friends',
     component: UserFriendsView
+  },
+  {
+    path: '/posts/:id',
+    name: 'post-details',
+    component: PostDetailsView
   },
   {
     path: '/about',

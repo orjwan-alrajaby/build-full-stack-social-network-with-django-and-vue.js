@@ -16,6 +16,7 @@ const URLS = {
   getPostCommentsList: (postId) => `/api/posts/${postId}/comments/`,
   likeComment: (postId, commentId) => `/api/posts/${postId}/comments/${commentId}/`,
   deleteComment: (postId, commentId) => `/api/posts/${postId}/comments/${commentId}/delete/`,
+  deletePost: (id) => `/api/posts/${id}/delete/`
 }
 
 export default URLS

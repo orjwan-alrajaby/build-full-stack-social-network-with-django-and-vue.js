@@ -10,6 +10,8 @@ from .forms import PostForm, CommentForm
 from account.models import User
 from account.serializers import UserSerializer
 
+from django.core.exceptions import ObjectDoesNotExist
+
 @api_view(['GET'])
 def get_post_list(request):
   users_ids = [request.user.id]
@@ -177,3 +179,13 @@ def delete_comment_on_post(request, post_id, comment_id):
     return JsonResponse({'message': 'Comment deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
   else:
     return JsonResponse({'message': 'Comment already does not exist!'}, status=status.HTTP_409_CONFLICT)
+
+
+@api_view(['DELETE'])
+def delete_post(request, id):
+    try:
+        post = Post.objects.get(pk=id)
+        post.delete()
+        return JsonResponse({'message': 'Post deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Post not found!'}, status=status.HTTP_404_NOT_FOUND)
