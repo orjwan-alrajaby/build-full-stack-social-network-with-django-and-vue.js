@@ -189,3 +189,13 @@ def delete_post(request, id):
         return JsonResponse({'message': 'Post deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Post not found!'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def get_post_details(request, id):
+    try:
+        post = Post.objects.get(pk=id)
+        post_serializer = PostSerializer(post)
+        return JsonResponse({'message': 'Post fetched successfully!', 'post': post_serializer.data}, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Post not found!'}, status=status.HTTP_404_NOT_FOUND)
