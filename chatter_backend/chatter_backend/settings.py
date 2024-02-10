@@ -74,7 +74,8 @@ INSTALLED_APPS = [
     "corsheaders",
     'account.apps.AccountConfig',
     'post.apps.PostConfig',
-    'search.apps.SearchConfig'
+    'search.apps.SearchConfig',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
