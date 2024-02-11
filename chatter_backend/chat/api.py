@@ -9,8 +9,9 @@ from .serializers import ConversationSerializer, ConversationMessageSerializer, 
 
 @api_view(['GET'])
 def get_conversation_list(request):
-  conversations = Conversation.objects.filter(users__in=list([request.user]))
-  serializer = ConversationSerializer(conversations, safe=False)
+  conversations = Conversation.objects.filter(
+      users__in=list([request.user])).order_by('-created_at')
+  serializer = ConversationSerializer(conversations, many=True)
 
   return JsonResponse({
       'message': 'Fetched conversations successfully!',
