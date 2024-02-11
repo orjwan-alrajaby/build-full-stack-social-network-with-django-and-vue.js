@@ -6,5 +6,7 @@ urlpatterns = [
     path('conversations/<uuid:conversation_id>/',
          api.get_single_conversation, name="get_single_conversation"),
     path('conversations/<uuid:conversation_id>/send/',
-         api.send_message_in_conversation, name="send_message_in_conversation")
+         api.send_message_in_conversation, name="send_message_in_conversation"),
+    path('conversations/<uuid:user_id>/start/',
+         api.start_conversation, name='start_conversation')
 ]

@@ -82,11 +82,19 @@
         </div>
         <div v-if="this.$route.params.id !== userStore.user.id" class="mt-8">
           <template v-if="postsStore.posts.userPosts.author.is_friend_of_user">
-            <div class="flex items-center justify-center h-10 px-4 py-2 mx-auto font-medium rounded-lg w-fit bg-lime-300 text-slate-900">
+            <div class="flex items-center justify-center space-x-4">
+              <div class="flex items-center justify-center h-10 px-4 py-2 font-medium rounded-lg w-fit bg-lime-300 text-slate-900">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                 <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
               </svg>
               <span class="ml-2">Friends</span>
+            </div>
+            <button class="flex items-center justify-center h-10 px-4 py-2 font-medium rounded-lg w-fit bg-lime-300 text-slate-900" @click="messageUser">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+              <path fill-rule="evenodd" d="M12 2.25c-2.429 0-4.817.178-7.152.521C2.87 3.061 1.5 4.795 1.5 6.741v6.018c0 1.946 1.37 3.68 3.348 3.97.877.129 1.761.234 2.652.316V21a.75.75 0 0 0 1.28.53l4.184-4.183a.39.39 0 0 1 .266-.112c2.006-.05 3.982-.22 5.922-.506 1.978-.29 3.348-2.023 3.348-3.97V6.741c0-1.947-1.37-3.68-3.348-3.97A49.145 49.145 0 0 0 12 2.25ZM8.25 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Zm2.625 1.125a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-2">Message</span>
+            </button>
             </div>
           </template>
           <template v-else-if="postsStore.posts.userPosts.author.has_sent_friend_request_to">
@@ -130,7 +138,8 @@ import Trends from "../components/Trends.vue";
 import PostItem from "../components/PostItem.vue";
 import { usePostsStore } from '@/stores/posts';
 import { useUserStore } from '@/stores/user';
-import {useFriendshipsStore} from '@/stores/friendships';
+import { useFriendshipsStore } from '@/stores/friendships';
+import useStartConversation from "@/composition-functions/useStartConversation"
 import { useToast } from "vue-toastification";
 
 export default {
@@ -138,13 +147,15 @@ export default {
     const postsStore = usePostsStore();
     const userStore = useUserStore();
     const friendshipsStore = useFriendshipsStore();
+    const { startConversation } = useStartConversation();
     const toast = useToast();
 
     return {
       postsStore,
       userStore,
       friendshipsStore,
-      toast
+      toast,
+      startConversation
     }
   },
   name: "FeedView",
@@ -185,6 +196,17 @@ export default {
           });
         }
       })
+    },
+    messageUser() {
+      this.startConversation(this.$route.params.id).then(res => {
+        if (res.status === "success") {
+          this.$router.push({name: "messages"})
+        } else {
+          this.toast.error(`Failed to start conversation with user.`, {
+            toastClassName: "!bg-red-700 !text-slate-200",
+          });
+        }
+       })
     }
   },
   watch: {

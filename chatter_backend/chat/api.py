@@ -6,6 +6,8 @@ from rest_framework import status
 from .models import Conversation, ConversationMessage
 from .serializers import ConversationSerializer, ConversationMessageSerializer, ConversationDetailSerializer
 
+from account.models import User
+
 
 @api_view(['GET'])
 def get_conversation_list(request):
@@ -29,6 +31,31 @@ def get_single_conversation(request, conversation_id):
         'message': 'Fetched conversation successfully!',
         'conversation': serializer.data
     }, safe=False, status=status.HTTP_200_OK)
+    
+
+@api_view(['GET'])
+def start_conversation(request, user_id):
+
+    user = User.objects.get(pk=user_id);
+    
+    target_convo = Conversation.objects.filter(users__in=list([request.user])).filter(users__in=list([user]))
+
+    if target_convo.exists():
+        conversation = target_convo.first()
+        serializer = ConversationDetailSerializer(conversation)
+        return JsonResponse({
+            'conversation': 'Fetched conversation successfully!',
+            'conversation': serializer.data
+        }, safe=False, status=status.HTTP_200_OK)
+    else:
+        conversation = Conversation.objects.create()
+        conversation.users.add(user, request.user)
+        conversation.save();
+        serializer = ConversationDetailSerializer(conversation)
+        return JsonResponse({
+            'conversation': 'New conversation created successfully!',
+            'conversation': serializer.data
+        }, safe=False, status=status.HTTP_201_CREATED)   
     
 
 @api_view(['POST'])

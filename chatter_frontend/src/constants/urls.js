@@ -21,6 +21,7 @@ const URLS = {
   getConversationList: "/api/chat/conversations/",
   getConversation: (conversationId) => `/api/chat/conversations/${conversationId}/`,
   sendMessage: (conversationId) => `/api/chat/conversations/${conversationId}/send/`,
+  startConversation: (userId) => `/api/chat/conversations/${userId}/start/`,
 }
 
 export default URLS
