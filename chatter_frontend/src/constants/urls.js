@@ -18,7 +18,8 @@ const URLS = {
   deleteComment: (postId, commentId) => `/api/posts/${postId}/comments/${commentId}/delete/`,
   deletePost: (id) => `/api/posts/${id}/delete/`,
   getPost: (id) => `/api/posts/${id}/`,
-  getConversationList: "/api/chat/conversations/"
+  getConversationList: "/api/chat/conversations/",
+  getConversation: (conversationId) => `/api/chat/conversations/${conversationId}/`,
 }
 
 export default URLS

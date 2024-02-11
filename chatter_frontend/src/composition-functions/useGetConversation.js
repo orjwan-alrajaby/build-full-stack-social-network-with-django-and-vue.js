@@ -2,20 +2,20 @@ import { ref } from 'vue';
 import axios from 'axios';
 import URLS from '@/constants/urls';
 
-const useGetConversationList = () => {
+const useGetConversation = () => {
   const data = ref(null);
   const error = ref(null);
   const isLoading = ref(false);
   const isError = ref(false);
 
-  const getConversationList = async (accessToken) => {
+  const getConversation = async (accessToken, id) => {
     isLoading.value = true;
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
     try {
-      const response = await axios.get(URLS.getConversationList);
+      const response = await axios.get(URLS.getConversation(id));
       isError.value = false;
       error.value = null;
-      data.value = response.data.conversations;
+      data.value = response.data.conversation;
       return { status: "success", code: response.status };
     } catch (error) {
       error.value = error;
@@ -31,8 +31,8 @@ const useGetConversationList = () => {
     isLoading,
     error,
     isError,
-    getConversationList
+    getConversation
   };
 };
 
-export default useGetConversationList;
+export default useGetConversation;

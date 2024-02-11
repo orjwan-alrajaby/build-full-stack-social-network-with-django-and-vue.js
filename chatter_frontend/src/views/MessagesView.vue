@@ -1,9 +1,11 @@
 <template>
-  <div class="grid grid-cols-3 gap-4 mx-auto max-w-7xl">
+  <div class="grid grid-cols-3 gap-4 mx-auto max-w-7xl h-96">
     <div class="order-last col-span-3 p-4 space-y-4 border rounded-lg main-left lg:col-span-1 lg:order-none bg-gray-950 border-lime-300">
-        <div v-for="conversation in conversations" :key="conversation.id">
-          <div class="flex items-center justify-between p-4 bg-gray-900 rounded-lg">
-            <div class="flex items-center space-x-4">
+        <button v-for="conversation in conversations" :key="conversation.id" @click="selectConversation(conversation.id)" class="block w-full p-3 bg-gray-900 rounded-lg" :class="{'border-2 border-lime-300': activeConversationId === conversation.id,
+        'border-2 border-gray-900': activeConversationId !== conversation.id
+      }">
+          <span class="flex items-center justify-between">
+            <span class="flex items-center space-x-4">
               <img
                 src="https://mighty.tools/mockmind-api/content/human/49.jpg"
                 class="w-[40px] rounded-full"
@@ -13,29 +15,29 @@
                   <strong>{{ user.name }}</strong>
                 </p>
               </template>
-            </div>
+            </span>
 
             <span class="text-xs text-slate-500">{{ conversation.modified_at_formatted }} ago</span>
-          </div>
-        </div>
+          </span>
+        </button>
     </div>
 
     <div
-      class="order-first col-span-3 space-y-4 border rounded-lg main-center lg:col-span-2 lg:order-none bg-gray-950 border-lime-300"
+      class="relative order-first col-span-3 space-y-4 border rounded-lg main-center lg:col-span-2 lg:order-none bg-gray-950 border-lime-300"
     >
-      <div>
-        <div class="flex flex-col flex-grow p-4">
-          <div class="flex justify-end w-full max-w-md mt-2 ml-auto space-x-3">
+
+            <div class="flex flex-col flex-grow p-4">
+          <template v-for="message in activeConversation.messages">
+           <div class="flex justify-end w-full max-w-md mt-4 ml-auto space-x-3" v-if="message.created_by.id === userStore.user.id" :key="message.id">
             <div>
               <div
                 class="p-3 rounded-l-lg rounded-br-lg bg-lime-400 text-slate-900"
               >
                 <p class="text-sm">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod.
+                  {{ message.body }}
                 </p>
               </div>
-              <span class="text-xs leading-none text-lime-600">2 min ago</span>
+              <span class="block mt-2 text-xs text-right text-lime-600">2 min ago</span>
             </div>
             <div class="flex-shrink-0 w-10 h-10 bg-gray-300 rounded-full">
               <img
@@ -44,25 +46,7 @@
               />
             </div>
           </div>
-
-          <div class="flex justify-end w-full max-w-md mt-2 ml-auto space-x-3">
-            <div>
-              <div
-                class="p-3 rounded-l-lg rounded-br-lg bg-lime-400 text-slate-900"
-              >
-                <p class="text-sm">Lorem ipsum dolor sit amet</p>
-              </div>
-              <span class="text-xs leading-none text-lime-600">2 min ago</span>
-            </div>
-            <div class="flex-shrink-0 w-10 h-10 bg-gray-300 rounded-full">
-              <img
-                src="https://mighty.tools/mockmind-api/content/human/49.jpg"
-                class="w-[40px] rounded-full"
-              />
-            </div>
-          </div>
-
-          <div class="flex w-full max-w-md mt-2 space-x-3">
+          <div class="flex w-full max-w-md mt-6 space-x-3" v-if="message.created_by.id !== userStore.user.id" :key="message.id">
             <div class="flex-shrink-0 w-10 h-10 bg-gray-300 rounded-full">
               <img
                 src="https://mighty.tools/mockmind-api/content/human/49.jpg"
@@ -73,19 +57,20 @@
               <div
                 class="p-3 rounded-r-lg rounded-bl-lg bg-slate-600 text-slate-200"
               >
-                <p class="text-sm">I'm the other person</p>
+                <p class="text-sm">{{ message.body }}</p>
               </div>
-              <span class="text-xs leading-none text-slate-500">2 min ago</span>
+              <span class="block mt-2 text-xs text-slate-500">2 min ago</span>
             </div>
           </div>
+      
+          </template>
         </div>
-      </div>
 
     <form
-      class="pt-4 rounded-lg"
+      class="absolute bottom-0 left-0 w-full pt-4 rounded-lg"
       @submit.prevent="submitForm"
     >
-      <div class="flex p-4 space-x-4 bg-gray-900 rounded-lg ">
+      <div class="flex p-4 space-x-4 bg-gray-900 rounded-lg">
         <img
           src="https://mighty.tools/mockmind-api/content/human/49.jpg"
           class="w-full rounded-full max-w-10"
@@ -124,6 +109,7 @@
 
 <script>
 import useGetConversationList from "@/composition-functions/useGetConversationList"
+import useGetConversation from "@/composition-functions/useGetConversation"
 import { useUserStore } from "@/stores/user";
 import { useToast } from "vue-toastification";
   
@@ -131,36 +117,61 @@ export default {
   setup() { 
     const toast = useToast();
     const userStore = useUserStore();
-    const { data, getConversationList } = useGetConversationList();
+    const { data: conversationsList, getConversationList } = useGetConversationList();
+    const { data: singleConversation, getConversation } = useGetConversation();
 
     return {
       toast,
       userStore,
       getConversationList,
-      data,
+      conversationsList,
+      getConversation,
+      singleConversation
     }
   },
   data() {
     return {
       messageBody: "",
-      conversations: []
+      conversations: [],
+      activeConversationId: "",
+      activeConversation: {
+        messages: []
+      },
     }
    },
   methods: {
-    getConversations() {
-     this.getConversationList().then((res) => {
+    getConversations(userId) {
+     this.getConversationList(userId).then((res) => {
        if (res.status === "success") {
-         this.conversations = this.data;
+         this.conversations = this.conversationsList;
+         this.activeConversation = this.conversationsList[0];
+         this.activeConversationId = this.activeConversation.id;
+         this.getSingleConversation(this.userStore.user.accessToken, this.activeConversationId);
       } else {
         this.toast.error(`Failed to fetch your conversations.`, {
           toastClassName: "!bg-red-700 !text-slate-200",
         });
       }
     })
-    }
+    },
+    getSingleConversation(accessToken, id) { 
+      this.getConversation(accessToken, id).then((res) => {
+        if (res.status === "success") {
+          this.activeConversation = this.singleConversation;
+        } else {
+          this.toast.error(`Failed to fetch conversation.`, {
+            toastClassName: "!bg-red-700 !text-slate-200",
+          });
+        }
+      })
+    },
+    selectConversation(id) { 
+      this.activeConversationId = id;
+      this.getSingleConversation(this.userStore.user.accessToken, id)
+    },
   },
   mounted() {
-    this.getConversations();
+    this.getConversations(this.userStore.user.accessToken);
   },
 }
 </script>
