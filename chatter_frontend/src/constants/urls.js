@@ -20,6 +20,7 @@ const URLS = {
   getPost: (id) => `/api/posts/${id}/`,
   getConversationList: "/api/chat/conversations/",
   getConversation: (conversationId) => `/api/chat/conversations/${conversationId}/`,
+  sendMessage: (conversationId) => `/api/chat/conversations/${conversationId}/send/`,
 }
 
 export default URLS
