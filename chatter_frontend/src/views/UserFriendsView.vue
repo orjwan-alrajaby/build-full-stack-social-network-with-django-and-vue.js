@@ -82,7 +82,7 @@
                     {{ friend.friends_count }} friends
                   </router-link>
                 </p>
-                <p class="text-xs text-slate-400">120 posts</p>
+                <p class="text-xs text-slate-400">{{ friend.posts_count }} posts</p>
               </div>
               <div class="space-x-3">
                 <button

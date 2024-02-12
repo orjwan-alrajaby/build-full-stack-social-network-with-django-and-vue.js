@@ -93,6 +93,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   
   friends_count = models.IntegerField(default=0)
   
+  posts_count = models.IntegerField(default=0)
+  
   is_active = models.BooleanField(default=True)
   
   is_superuser = models.BooleanField(default=False)

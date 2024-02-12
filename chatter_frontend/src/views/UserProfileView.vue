@@ -78,7 +78,7 @@
         <p class="font-medium text-md text-slate-200" v-if="this.$route.params.id === userStore.user.id">{{ postsStore.posts.userPosts.author.email }}</p>
         <div class="flex justify-center mt-6 space-x-8">
             <p class="text-xs text-slate-400">{{ postsStore.posts.userPosts.author.friends_count }} friends</p>
-            <p class="text-xs text-slate-400">120 posts</p>
+            <p class="text-xs text-slate-400">{{ postsStore.posts.userPosts.author.posts_count }} posts</p>
         </div>
         <div v-if="this.$route.params.id !== userStore.user.id" class="mt-8">
           <template v-if="postsStore.posts.userPosts.author.is_friend_of_user">

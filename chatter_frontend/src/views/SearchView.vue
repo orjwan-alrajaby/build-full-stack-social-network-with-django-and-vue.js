@@ -135,7 +135,7 @@
                       {{ user.friends_count }} friends
                     </router-link>
                   </p>
-                  <p class="text-xs text-slate-400">120 posts</p>
+                  <p class="text-xs text-slate-400">{{ user.posts_count }} posts</p>
                 </div>
 
               <template  v-if="user.is_friend_of_user">

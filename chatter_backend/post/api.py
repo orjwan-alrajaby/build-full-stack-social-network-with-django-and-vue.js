@@ -45,11 +45,15 @@ def get_post_list(request):
 @api_view(['POST'])
 def create_post(request):
   form = PostForm(request.data)
+  user = User.objects.get(pk=request.user.id)
   
   if form.is_valid():
     post = form.save(commit=False)
     post.created_by = request.user
     post.save()
+    
+    user.posts_count = user.posts_count + 1
+    user.save()
   
     serializer = PostSerializer(post)
     return JsonResponse({'data': serializer.data}, safe=False)
@@ -186,6 +190,10 @@ def delete_post(request, id):
     try:
         post = Post.objects.get(pk=id)
         post.delete()
+        user = User.objects.get(pk=request.user.id)
+        user.posts_count = user.posts_count - 1
+        user.save()
+        
         return JsonResponse({'message': 'Post deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Post not found!'}, status=status.HTTP_404_NOT_FOUND)
