@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-3 gap-4 mx-auto max-w-7xl">
     <div class="col-span-3 space-y-4 main-center lg:col-span-2">
-      <div class="border rounded-lg bg-gray-950 border-lime-300">
+      <div class="border rounded-lg bg-slate-950 border-lime-300">
         <div class="p-4">
           <textarea
             class="w-full p-4 rounded-lg bg-slate-200 text-slate-950"
@@ -9,7 +9,6 @@
             v-model="body"
           ></textarea>
         </div>
-
         <div
           class="flex items-center justify-between pt-4 m-4 mt-0 border-t border-slate-700"
         >
@@ -22,79 +21,78 @@
           <form method="POST" @submit.prevent="submitForm">
             <button
               class="w-16 h-10 mx-2 font-medium bg-transparent border rounded-lg text-lime-300 border-lime-300"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 mx-auto"
-              ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                />
-              </svg>
+            >
+              <PictureIcon
+                height="1.5rem"
+                width="1.5rem"
+                classes="text-lime-300"
+              />
             </button>
 
             <button
-              class="w-16 h-10 mx-2 font-medium rounded-lg bg-lime-300 text-slate-900 disabled:bg-lime-900 disabled:cursor-not-allowed"
+              class="w-16 h-10 mx-2 font-medium rounded-lg bg-lime-300 text-slate-950 disabled:bg-lime-900 disabled:cursor-not-allowed"
               :disabled="!body || postsStore.posts.newPost.isLoading"
               @click="submitForm"
-              >
-              <svg v-if="postsStore.posts.newPost.isLoading" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" class="mx-auto">
-              	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
-              	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
-              		<animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
-              	</path>
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-              </svg>
+            >
+              <LoaderIcon
+                v-if="postsStore.posts.newPost.isLoading"
+                width="1.5rem"
+                height="1.5rem"
+                classes="text-slate-950"
+              />
+              <SendIcon
+                v-else
+                height="1.5rem"
+                width="1.5rem"
+                classes="text-slate-950"
+              />
             </button>
           </form>
         </div>
       </div>
-      <template v-if="postsStore.posts.all.data.length > 0 && !postsStore.posts.all.isError">
-        <PostItem v-for="post in postsStore.posts.all.data" :key="post.id" :post="post"/>
+      <template
+        v-if="
+          postsStore.posts.all.data.length > 0 && !postsStore.posts.all.isError
+        "
+      >
+        <PostItem
+          v-for="post in postsStore.posts.all.data"
+          :key="post.id"
+          :post="post"
+        />
       </template>
-     <PageFeedback 
-        v-else-if="postsStore.posts.all.isLoading && !postsStore.posts.all.isError"
+      <PageFeedback
+        v-else-if="
+          postsStore.posts.all.isLoading && !postsStore.posts.all.isError
+        "
         :title="'Feed is loading...'"
       >
-         <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" viewBox="0 0 24 24">
-          	<path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.5" />
-          	<path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
-          		<animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
-          	</path>
-          </svg>
-     </PageFeedback>
-     <PageFeedback 
-        v-else-if="postsStore.posts.all.isLoading && postsStore.posts.all.isError"
+        <LoaderIcon />
+      </PageFeedback>
+
+      <PageFeedback
+        v-else-if="
+          postsStore.posts.all.isLoading && postsStore.posts.all.isError
+        "
         :title="'Something went wrong :('"
         :subtitle="'Please press [CTRL + R] to refresh, or try to logout and login again.'"
         :isError="true"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="5rem" height="5rem">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-        </svg>
-     </PageFeedback>
+        <WarningIcon />
+      </PageFeedback>
 
-      <PageFeedback 
-        v-else 
+      <PageFeedback
+        v-else
         :title="'There is nothing here yet.'"
         :subtitle="'Make your first post and start the conversation :)'"
       >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="5rem"
-            height="5rem">
-          <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97ZM6.75 8.25a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 0 1.5h-9a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H7.5Z" clip-rule="evenodd" />
-        </svg>
-     </PageFeedback>
+        <MessageBubble1Icon />
+      </PageFeedback>
     </div>
 
     <div class="col-span-3 space-y-4 main-right lg:col-span-1">
       <PeopleYouMayKnow />
-      
+
       <Trends />
     </div>
   </div>
@@ -104,10 +102,16 @@
 import PeopleYouMayKnow from "../components/PeopleYouMayKnow.vue";
 import PageFeedback from "@/components/PageFeedback.vue";
 import Trends from "../components/Trends.vue";
-import { usePostsStore } from '@/stores/posts';
-import { useUserStore } from '@/stores/user';
-import { useToast } from "vue-toastification";
 import PostItem from "../components/PostItem.vue";
+import LoaderIcon from "../components/icons/LoaderIcon.vue";
+import MessageBubble1Icon from "../components/icons/MessageBubble1Icon.vue";
+import PictureIcon from "../components/icons/PictureIcon.vue";
+import WarningIcon from "@/components/icons/WarningIcon.vue";
+import SendIcon from "@/components/icons/SendIcon.vue";
+
+import { usePostsStore } from "@/stores/posts";
+import { useUserStore } from "@/stores/user";
+import { useToast } from "vue-toastification";
 
 export default {
   setup() {
@@ -118,8 +122,8 @@ export default {
     return {
       postsStore,
       userStore,
-      toast
-    }
+      toast,
+    };
   },
   name: "FeedView",
   components: {
@@ -127,24 +131,34 @@ export default {
     Trends,
     PostItem,
     PageFeedback,
+    LoaderIcon,
+    MessageBubble1Icon,
+    PictureIcon,
+    WarningIcon,
+    SendIcon,
   },
   data() {
     return {
-      body: ""
-    }
+      body: "",
+    };
   },
   mounted() {
-    if (this.userStore.user.isAuthenticated && this.userStore.user.accessToken) {
-      this.postsStore.getAllPosts(this.userStore.user.accessToken)
+    if (
+      this.userStore.user.isAuthenticated &&
+      this.userStore.user.accessToken
+    ) {
+      this.postsStore.getAllPosts(this.userStore.user.accessToken);
     }
   },
   methods: {
     submitForm() {
-      this.postsStore.createPost(this.userStore.user.accessToken, this.body, this.toast).then(() => {
-        this.body = ""
-        this.postsStore.updatePostList()
-      });
-    }
-  }
+      this.postsStore
+        .createPost(this.userStore.user.accessToken, this.body, this.toast)
+        .then(() => {
+          this.body = "";
+          this.postsStore.updatePostList();
+        });
+    },
+  },
 };
 </script>

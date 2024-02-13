@@ -19,7 +19,7 @@ export default {
     },
     subtitle: {
       type: String,
-      default: "Enter your subtitle here"
+      default: ""
     },
     isError: {
       type: Boolean,
