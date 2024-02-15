@@ -124,13 +124,13 @@
 import PeopleYouMayKnow from "../components/PeopleYouMayKnow.vue";
 import Trends from "../components/Trends.vue";
 import PostItem from "../components/PostItem.vue";
-import SearchIcon from "@/components/icons/SearchIcon.vue"
 import PageFeedback from "@/components/PageFeedback.vue"
 import LoaderIcon from "@/components/icons/LoaderIcon.vue"
 import WarningIcon from "@/components/icons/WarningIcon.vue";
 import OfficeBoxIcon from "@/components/icons/OfficeBoxIcon.vue"
 import EmptyOfficeBoxIcon from "@/components/icons/EmptyOfficeBoxIcon.vue"
 import TwoFriendsIcon from "@/components/icons/TwoFriendsIcon.vue"
+import { SearchIcon } from "@/components/icons/outlined/index.js"
 
 import { useSearchStore } from "@/stores/search";
 import { useUserStore } from "@/stores/user";
