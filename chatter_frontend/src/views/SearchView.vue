@@ -50,41 +50,8 @@
             SEARCH RESULTS: IN USERS
           </h2>
           <div class="grid grid-cols-4 gap-4">
-            <div
-              class="col-span-4 p-4 space-y-6 text-center border rounded-lg bg-slate-950 border-lime-300 lg:col-span-1 md:col-span-2"
-              v-for="user in searchStore.search.users"
-              :key="user.id"
-            >
-                <img
-                  src="https://mighty.tools/mockmind-api/content/human/40.jpg"
-                  class="w-full mx-auto mb-6 rounded-full max-w-40"
-                />
-
-                <p class="uppercase text-lime-300">
-                  <strong>
-                    <router-link
-                      :to="{ name: 'user-profile', params: { id: user.id } }"
-                    >
-                      {{ user.name }}
-                    </router-link>
-                  </strong>
-                </p>
-
-                <div class="flex justify-around mt-6 space-x-8">
-                  <p class="text-xs text-slate-400">
-                    <router-link :to="{ name: 'user-friends', params: { id: user.id } }">
-                      {{ user.friends_count }} friends
-                    </router-link>
-                  </p>
-                  <p class="text-xs text-slate-400">{{ user.posts_count }} posts</p>
-                </div>
-
-              <template  v-if="user.is_friend_of_user">
-                <div class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-950">
-                  <TwoFriendsIcon width="1.5rem" height="1.5rem"/>
-                <span class="ml-2">Friends</span>
-              </div>
-              </template>
+            <div class="col-span-4 lg:col-span-1 md:col-span-2" v-for="user in searchStore.search.users" :key="user.id">
+              <UserCard :user="user"/>
             </div>
           </div>
         </template>
@@ -129,11 +96,11 @@ import LoaderIcon from "@/components/icons/LoaderIcon.vue"
 import WarningIcon from "@/components/icons/WarningIcon.vue";
 import OfficeBoxIcon from "@/components/icons/OfficeBoxIcon.vue"
 import EmptyOfficeBoxIcon from "@/components/icons/EmptyOfficeBoxIcon.vue"
-import TwoFriendsIcon from "@/components/icons/TwoFriendsIcon.vue"
 import { SearchIcon } from "@/components/icons/outlined/index.js"
 
 import { useSearchStore } from "@/stores/search";
 import { useUserStore } from "@/stores/user";
+import UserCard from '../components/UserCard.vue';
 
 export default {
   name: "SearchView",
@@ -147,7 +114,7 @@ export default {
     WarningIcon,
     OfficeBoxIcon,
     EmptyOfficeBoxIcon,
-    TwoFriendsIcon
+    UserCard
 },
   setup() {
     const searchStore = useSearchStore();

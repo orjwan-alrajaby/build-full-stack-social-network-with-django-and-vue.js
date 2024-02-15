@@ -29,7 +29,7 @@
           <div
             class="flex items-center justify-center h-10 px-4 py-2 font-medium rounded-lg w-fit bg-lime-300 text-slate-950"
           >
-            <TwoFriendsIcon
+            <TwoUsersIcon
               width="1.5rem"
               height="1.5rem"
               classes="text-slate-950"
@@ -105,7 +105,7 @@ import { useFriendshipsStore } from "@/stores/friendships";
 import useStartConversation from "@/composition-functions/useStartConversation";
 import { useToast } from "vue-toastification";
 import LoaderIcon from "@/components/icons/LoaderIcon.vue";
-import TwoFriendsIcon from "@/components/icons/TwoFriendsIcon.vue";
+import TwoUsersIcon from "@/components/icons/TwoUsersIcon.vue";
 import DottedMessageBubbleIcon from "@/components/icons/DottedMessageBubbleIcon.vue";
 import CircledTickIcon from "../components/icons/CircledTickIcon.vue";
 import PlusUserIcon from "../components/icons/PlusUserIcon.vue";
@@ -126,10 +126,10 @@ export default {
       startConversation,
     };
   },
-  name: "UserProfileView",
+  name: "UserProfileCard",
   components: {
     LoaderIcon,
-    TwoFriendsIcon,
+    TwoUsersIcon,
     DottedMessageBubbleIcon,
     CircledTickIcon,
     PlusUserIcon,
