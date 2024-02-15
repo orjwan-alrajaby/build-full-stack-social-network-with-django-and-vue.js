@@ -51,7 +51,7 @@
           </button>
           <button
             id="accept-request-button"
-            class="w-10 h-10 text-xs font-medium rounded-full bg-lime-300 text-slate-900"
+            class="w-10 h-10 text-xs font-medium rounded-full bg-lime-300 text-slate-950"
             @click="handleFriendshipRequest('accepted', item.created_by.id)"
           >
             <svg

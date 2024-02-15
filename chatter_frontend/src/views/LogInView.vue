@@ -16,7 +16,7 @@
         <input
           placeholder="Enter email address"
           type="text"
-          class="block w-full p-2 rounded-lg bg-slate-200 text-slate-900"
+          class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950"
           v-model="form.email"
         />
       </div>
@@ -25,7 +25,7 @@
         <input
           placeholder="Enter password"
           type="password"
-          class="block w-full p-2 rounded-lg bg-slate-200 text-slate-900"
+          class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950"
           v-model="form.password"
         />
       </div>

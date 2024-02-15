@@ -10,7 +10,7 @@
                     <p class="text-xs text-slate-200"><strong>Angelica Johnson</strong></p>
                 </div>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Show</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Show</a>
             </div>
 
             <div class="flex items-center justify-between">
@@ -20,7 +20,7 @@
                     <p class="text-xs text-slate-200"><strong>Angelica Johnson</strong></p>
                 </div>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Show</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Show</a>
             </div>
 
             <div class="flex items-center justify-between">
@@ -30,7 +30,7 @@
                     <p class="text-xs text-slate-200"><strong>Angelica Johnson</strong></p>
                 </div>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Show</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Show</a>
             </div>
         </div>
     </div>

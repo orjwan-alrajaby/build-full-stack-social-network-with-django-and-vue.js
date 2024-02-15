@@ -52,7 +52,7 @@
             >
               <div>
                 <div
-                  class="p-3 rounded-l-lg rounded-br-lg bg-lime-400 text-slate-900"
+                  class="p-3 rounded-l-lg rounded-br-lg bg-lime-400 text-slate-950"
                 >
                   <p class="text-sm">
                     {{ message.body }}

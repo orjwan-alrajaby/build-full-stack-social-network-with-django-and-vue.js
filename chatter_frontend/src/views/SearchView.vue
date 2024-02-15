@@ -80,7 +80,7 @@
                 </div>
 
               <template  v-if="user.is_friend_of_user">
-                <div class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900">
+                <div class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-950">
                   <TwoFriendsIcon width="1.5rem" height="1.5rem"/>
                 <span class="ml-2">Friends</span>
               </div>

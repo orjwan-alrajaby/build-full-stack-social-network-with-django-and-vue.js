@@ -26,7 +26,7 @@
 
     <template v-if="user.is_friend_of_user">
       <div
-        class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-900"
+        class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-950"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

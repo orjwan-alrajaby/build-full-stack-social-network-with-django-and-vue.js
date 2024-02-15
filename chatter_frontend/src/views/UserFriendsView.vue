@@ -67,7 +67,7 @@
 
                 <router-link
                   :to="{ name: 'user-profile', params: { id: friend.id } }"
-                  class="p-2 text-xs font-medium rounded-lg bg-lime-300 text-slate-900"
+                  class="p-2 text-xs font-medium rounded-lg bg-lime-300 text-slate-950"
                 >
                 Show
                 </router-link>

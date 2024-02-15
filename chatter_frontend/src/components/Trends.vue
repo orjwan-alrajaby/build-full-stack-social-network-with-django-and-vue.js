@@ -9,7 +9,7 @@
                     <span class="text-slate-500">180 posts</span>
                 </p>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Explore</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Explore</a>
             </div>
 
             <div class="flex items-center justify-between">
@@ -18,7 +18,7 @@
                     <span class="text-slate-500">180 posts</span>
                 </p>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Explore</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Explore</a>
             </div>
 
             <div class="flex items-center justify-between">
@@ -27,7 +27,7 @@
                     <span class="text-slate-500">180 posts</span>
                 </p>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Explore</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Explore</a>
             </div>
 
             <div class="flex items-center justify-between">
@@ -36,7 +36,7 @@
                     <span class="text-slate-500">180 posts</span>
                 </p>
 
-                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-900 text-xs rounded-lg font-medium">Explore</a>
+                <a href="#" class="py-2 px-3 bg-lime-300 text-slate-950 text-xs rounded-lg font-medium">Explore</a>
             </div>
         </div>
     </div>
