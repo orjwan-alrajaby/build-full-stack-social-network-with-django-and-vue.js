@@ -99,16 +99,20 @@
 </template>
 
 <script>
+import {
+  LoaderIcon,
+  TwoUsersIcon,
+  DottedMessageBubbleIcon,
+  CircledTickIcon,
+  PlusUserIcon
+} from "@/components/icons"
+
+import useStartConversation from "@/composition-functions/useStartConversation";
 import { usePostsStore } from "@/stores/posts";
 import { useUserStore } from "@/stores/user";
 import { useFriendshipsStore } from "@/stores/friendships";
-import useStartConversation from "@/composition-functions/useStartConversation";
 import { useToast } from "vue-toastification";
-import LoaderIcon from "@/components/icons/LoaderIcon.vue";
-import TwoUsersIcon from "@/components/icons/TwoUsersIcon.vue";
-import DottedMessageBubbleIcon from "@/components/icons/DottedMessageBubbleIcon.vue";
-import CircledTickIcon from "../components/icons/CircledTickIcon.vue";
-import PlusUserIcon from "../components/icons/PlusUserIcon.vue";
+
 
 export default {
   setup() {

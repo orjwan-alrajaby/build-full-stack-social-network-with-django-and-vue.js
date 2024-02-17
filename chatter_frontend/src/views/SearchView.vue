@@ -96,7 +96,7 @@ import LoaderIcon from "@/components/icons/LoaderIcon.vue"
 import WarningIcon from "@/components/icons/WarningIcon.vue";
 import OfficeBoxIcon from "@/components/icons/OfficeBoxIcon.vue"
 import EmptyOfficeBoxIcon from "@/components/icons/EmptyOfficeBoxIcon.vue"
-import { SearchIcon } from "@/components/icons/outlined/index.js"
+import { SearchIcon } from "@/components/icons"
 
 import { useSearchStore } from "@/stores/search";
 import { useUserStore } from "@/stores/user";

@@ -38,7 +38,7 @@
         :title="'There is nothing here yet.'"
         :subtitle="'Make your first post and start the conversation :)'"
       >
-        <MessageBubble1Icon />
+        <DashedMessageBubbleIcon />
       </PageFeedback>
     </div>
 
@@ -56,7 +56,7 @@ import PageFeedback from "@/components/PageFeedback.vue";
 import Trends from "../components/Trends.vue";
 import PostItem from "../components/PostItem.vue";
 import LoaderIcon from "../components/icons/LoaderIcon.vue";
-import MessageBubble1Icon from "../components/icons/MessageBubble1Icon.vue";
+import DashedMessageBubbleIcon from "../components/icons/DashedMessageBubbleIcon.vue";
 import WarningIcon from "@/components/icons/WarningIcon.vue";
 import CreatePostForm from "@/components/forms/CreatePostForm.vue"
 
@@ -80,7 +80,7 @@ export default {
     PostItem,
     PageFeedback,
     LoaderIcon,
-    MessageBubble1Icon,
+    DashedMessageBubbleIcon,
     WarningIcon,
     CreatePostForm,
   },

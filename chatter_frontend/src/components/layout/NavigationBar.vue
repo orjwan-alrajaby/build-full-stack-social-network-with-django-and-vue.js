@@ -105,7 +105,7 @@ import {
   NotificationsIcon,
   LeavingIcon,
   SearchIcon
-} from "@/components/icons/outlined"
+} from "@/components/icons"
 
 import { useToast } from "vue-toastification";
 import { useUserStore } from '@/stores/user';
