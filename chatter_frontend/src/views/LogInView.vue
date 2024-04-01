@@ -1,7 +1,6 @@
 <template>
   <div
-    class="items-center justify-between px-6 py-6 mx-auto border rounded-lg lg:max-w-5xl lg:flex lg:px-12 bg-slate-950 border-lime-300"
-  >
+    class="items-center justify-between px-6 py-6 mx-auto border rounded-lg lg:max-w-5xl lg:flex lg:px-12 bg-slate-950 border-lime-300">
     <div class="py-4 lg:border-y lg:border-lime-300 lg:w-2/5">
       <h1 class="mb-6 text-xl font-bold text-center text-lime-300">
         Hello and welcome to Chatter!
@@ -13,36 +12,29 @@
     <form class="block space-y-6 lg:w-3/6" v-on:submit.prevent="submitForm">
       <div>
         <label class="block mb-3 text-slate-200">Email Address</label>
-        <input
-          placeholder="Enter email address"
-          type="text"
+        <input placeholder="Enter email address" type="text"
           class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950"
-          v-model="form.email"
-        />
+          v-model="form.email" />
       </div>
       <div>
         <label class="block mb-3 text-slate-200">Password</label>
-        <input
-          placeholder="Enter password"
-          type="password"
+        <input placeholder="Enter password" type="password"
           class="block w-full p-2 rounded-lg bg-slate-200 text-slate-950"
-          v-model="form.password"
-        />
+          v-model="form.password" />
       </div>
       <div>
         <button
           class="flex items-center justify-center w-full h-10 px-4 py-2 font-medium rounded-lg bg-lime-300 text-slate-950 disabled:bg-slate-600"
-          :disabled="isLoading"
-        >
+          :disabled="isLoading">
           <span class="px-4" v-if="!isLoading">Log In</span>
-          <LoaderIcon v-if="isLoading" width="1.5rem" height="1.5rem" classes="text-slate-950"/>
+          <LoaderIcon v-if="isLoading" width="1.5rem" height="1.5rem"
+            classes="text-slate-950" />
         </button>
       </div>
       <p class="mt-10 text-sm text-slate-400">
         Don't have an account? Go ahead and
-        <router-link :to="{ name: 'sign-up' }" class="text-lime-300"
-          >Create one</router-link
-        >.
+        <router-link :to="{ name: 'sign-up' }" class="text-lime-300">Create
+          one</router-link>.
       </p>
     </form>
   </div>
@@ -50,23 +42,35 @@
 
 <script>
 import LoaderIcon from "@/components/icons/LoaderIcon.vue";
-
-import URLS from "@/constants/urls";
-import axios from "axios";
 import { useToast } from "vue-toastification";
 import { useUserStore } from "@/stores/user";
+import useLogin from "@/composables/user/useLogin";
+import useGetUser from "@/composables/user/useGetUser";
 
 export default {
+  name: "LoginView",
+  components: {
+    LoaderIcon,
+  },
   setup() {
+    const { handleLogin, isLoading: loginIsLoading } = useLogin();
+    const { handleGetUser, isLoading: getUserIsLoading } = useGetUser();
     const toast = useToast();
     const userStore = useUserStore();
 
     return {
       toast,
       userStore,
+
+      // useLogin composable
+      handleLogin,
+      
+      // useGetUser composable
+      handleGetUser,
+      
+      isLoading: loginIsLoading || getUserIsLoading,
     };
   },
-
   data() {
     return {
       form: {
@@ -74,10 +78,8 @@ export default {
         password: "Kiitos123456@@@",
       },
       errors: [],
-      isLoading: false,
     };
   },
-
   methods: {
     async submitForm() {
       this.errors = [];
@@ -90,83 +92,49 @@ export default {
         this.errors.push("You must enter a valid password!");
       }
 
-      if (this.errors.length === 0) {
-        this.isLoading = true;
-        try {
-          const response = await axios.post(URLS.login, this.form);
-          if (response.data.access) {
-            this.userStore.handleSetToken(response.data);
-
-            const userRes = await axios.get(`${URLS.me}`, {
-              headers: { Authorization: `Bearer ${response.data.access}` },
-            });
-            this.toast.success("You have logged in successfully.", {
-              toastClassName: "!bg-emerald-700 !text-slate-200",
-            });
-
-            const userInfo = userRes.data;
-
-            this.userStore.setUserInfo(userInfo);
-
-            this.form = {
-              email: "",
-              password: "",
-            };
-            this.$router.push({ name: "home" });
+      if (this.errors.length > 0) {
+        const messages = this.errors.reduce((str, msg, index) => {
+          if (index === 0) {
+            str = `- ${msg}`;
           } else {
-            this.toast.error(response.data.message, {
-              toastClassName: "!bg-red-700 !text-slate-200",
-            });
-
-            const errorsObj = response.data.errors;
-            const values = Object.values(errorsObj);
-            if (values.length > 0) {
-              const message = values.reduce((accum, msgArr, index) => {
-                if (index === 0) {
-                  accum = `- ${msgArr[0]}`;
-                } else {
-                  accum = accum + "\n" + `- ${msgArr[0]}`;
-                }
-                return accum;
-              }, "");
-              this.toast.error(message, {
-                toastClassName: "!bg-red-700 !text-slate-200",
-              });
-            }
+            str = str + "\n" + `- ${msg}`;
           }
-        } catch (error) {
-          if (error.response.status === 401) {
-            this.toast.error("No user found for the entered credentials!", {
-              toastClassName: "!bg-red-700 !text-slate-200",
-            });
-          } else {
-            this.toast.error(error.message, {
-              toastClassName: "!bg-red-700 !text-slate-200",
-            });
-          }
-          console.error(error);
-        } finally {
-          this.isLoading = false;
-        }
-      } else {
-        const messages = this.errors.reduce((accum, msg, index) => {
-          if (index > 0) {
-            accum = `- ${msg}`;
-          } else {
-            accum = accum + `- ${msg}`;
-          }
-          return accum;
+          return str;
         }, "");
+
         this.toast.error(messages, {
           toastClassName: "!bg-red-700 !text-slate-200",
         });
+
+        return;
       }
+
+      this.handleLogin(this.form).then((res) => {
+        if (res.status === "error") {
+          this.toast.error(res.message, {
+            toastClassName: "!bg-red-700 !text-slate-200",
+          });
+          return;
+        }
+
+        this.userStore.handleSetToken(res.data);
+
+        this.handleGetUser().then((res) => {
+          this.userStore.setUserInfo(res.data);
+
+          this.form = {
+            email: "",
+            password: "",
+          };
+
+          this.toast.success("You have logged in successfully.", {
+            toastClassName: "!bg-emerald-700 !text-slate-200",
+          });
+
+          this.$router.push({ name: "home" });
+        })
+      })
     },
-  },
-  name: "LoginView",
-  components: {
-    LoaderIcon,
   },
 };
 </script>
-
