@@ -120,9 +120,9 @@
 </template>
 
 <script>
-import useGetConversationList from "@/composition-functions/useGetConversationList";
-import useGetConversation from "@/composition-functions/useGetConversation";
-import useSendMessage from "@/composition-functions/useSendMessage";
+import useGetConversationList from "@/composables/chat/useGetConversationList";
+import useGetConversation from "@/composables/chat/useGetConversation";
+import useSendMessage from "@/composables/chat/useSendMessage";
 import SendIcon from "@/components/icons/SendIcon.vue"
 
 import { useUserStore } from "@/stores/user";

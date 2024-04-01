@@ -107,7 +107,7 @@ import {
   PlusUserIcon
 } from "@/components/icons"
 
-import useStartConversation from "@/composition-functions/useStartConversation";
+import useStartConversation from "@/composables/chat/useStartConversation";
 import { usePostsStore } from "@/stores/posts";
 import { useUserStore } from "@/stores/user";
 import { useFriendshipsStore } from "@/stores/friendships";

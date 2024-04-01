@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import URLS from '@/constants/urls';
 
-const useDeleteComment = () => {
+const useDeletePost = () => {
   const data = ref(null);
   const error = ref(null);
   const isLoading = ref(false);
@@ -34,4 +34,4 @@ const useDeleteComment = () => {
   };
 }
 
-export default useDeleteComment;
+export default useDeletePost;

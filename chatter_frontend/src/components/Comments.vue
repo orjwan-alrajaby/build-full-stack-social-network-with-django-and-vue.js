@@ -88,10 +88,10 @@ import { SendIcon, LoaderIcon, MessageBubbleIcon } from '@/components/icons';
 
 import { useToast } from "vue-toastification";
 import { useUserStore } from "@/stores/user";
-import useCreateCommentOnPost from "@/composition-functions/usePostComment.js";
-import useGetPostComments from "@/composition-functions/useGetPostComments.js";
-import useLikeComment from "@/composition-functions/useLikeComment.js";
-import useDeleteComment from "@/composition-functions/useDeleteComment.js"
+import useCreateCommentOnPost from "@/composables/posts/useCreateCommentOnPost.js";
+import useGetPostComments from "@/composables/posts/useGetPostComments.js";
+import useLikeComment from "@/composables/posts/useLikeComment.js";
+import useDeleteComment from "@/composables/posts/useDeleteComment.js"
 
 export default {
   components: { 
@@ -112,8 +112,6 @@ export default {
     } = useGetPostComments();
     const { createLikeForComment } = useLikeComment();
     const { deleteCommentOnPost } = useDeleteComment();
-
-
     
     const toast = useToast();
     return {

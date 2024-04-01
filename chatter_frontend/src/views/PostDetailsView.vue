@@ -15,7 +15,7 @@ import PostItem from "@/components/PostItem.vue";
 import LoaderIcon from "@/components/icons/LoaderIcon.vue";
 import PageFeedback from "@/components/PageFeedback.vue";
 
-import useGetPostDetails from "@/composition-functions/useGetPostDetails.js";
+import useGetPostDetails from "@/composables/posts/useGetPostDetails.js";
 
 export default {
   setup() {

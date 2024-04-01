@@ -106,8 +106,8 @@
 import Comments from "@/components/Comments.vue";
 import { HeartIcon, EyeIcon, EmptyMessageBubble, TrashIcon, MessageBubbleIcon } from "./icons";
 
-import useLikePost from "@/composition-functions/useLikePost";
-import useDeletePost from "@/composition-functions/useDeletePost.js";
+import useLikePost from "@/composables/posts/useLikePost";
+import useDeletePost from "@/composables/posts/useDeletePost.js";
 import { useToast } from "vue-toastification";
 import { useUserStore } from "@/stores/user";
 
