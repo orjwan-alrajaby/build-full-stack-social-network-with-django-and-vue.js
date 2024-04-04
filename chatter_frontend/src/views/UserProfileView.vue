@@ -8,12 +8,12 @@
       </template>
       <template
         v-if="
-          postsStore.posts.userPosts.data.length > 0 &&
-          !postsStore.posts.userPosts.isError
+          postsStore.user.posts.length > 0 &&
+          !isError
         "
       >
         <PostItem
-          v-for="post in postsStore.posts.userPosts.data"
+          v-for="post in postsStore.user.posts"
           :key="post.id"
           :post="post"
         />
@@ -21,8 +21,8 @@
       <PageFeedback
         title="Feed is loading..."
         v-else-if="
-          postsStore.posts.userPosts.isLoading &&
-          !postsStore.posts.userPosts.isError
+          isLoading &&
+          !isError
         "
       >
         <LoaderIcon />
@@ -33,8 +33,8 @@
           logout and login again."
         :isError="true"
         v-else-if="
-          !postsStore.posts.userPosts.isLoading &&
-          postsStore.posts.userPosts.isError
+          !isLoading &&
+          isError
         "
       >
         <WarningIcon />
@@ -59,16 +59,9 @@ import PeopleYouMayKnow from "@/components/PeopleYouMayKnow.vue";
 import { usePostsStore } from "@/stores/posts";
 import { useUserStore } from "@/stores/user";
 
-export default {
-  setup() {
-    const postsStore = usePostsStore();
-    const userStore = useUserStore();
+import useGetUserPosts from "@/composables/posts/useGetUserPosts";
 
-    return {
-      postsStore,
-      userStore,
-    };
-  },
+export default {
   name: "UserProfileView",
   components: {
     PeopleYouMayKnow,
@@ -80,12 +73,46 @@ export default {
     CreatePostForm,
     UserProfileCard,
   },
+  setup() {
+    const postsStore = usePostsStore();
+    const userStore = useUserStore();
+    const {
+      getUserPosts,
+      data,
+      isLoading,
+      isError,
+      error
+    } = useGetUserPosts();
+
+    return {
+      postsStore,
+      userStore,
+
+      // 
+      getUserPosts,
+      data,
+      isLoading,
+      isError,
+      error
+    };
+  },
   data() {
     return {
       body: "",
     };
   },
-  mounted() {
+  methods: {
+    getPosts() {
+      this.getUserPosts(this.$route.params.id).then(res => {
+        if (res.status === "error") {
+          return;
+        }
+
+        this.postsStore.setUserPosts(this.data.author, this.data.posts);
+      })
+    }
+  },
+  beforeMount() {
     if (!this.$route.params.id) {
       this.$router.push({ name: "feed" });
     } else if (
@@ -93,10 +120,7 @@ export default {
       this.userStore.user.accessToken &&
       this.$route.params.id
     ) {
-      this.postsStore.getUserPosts(
-        this.userStore.user.accessToken,
-        this.$route.params.id
-      );
+      this.getPosts();
     }
   },
   watch: {
@@ -106,10 +130,7 @@ export default {
         from.name === to.name &&
         from.params.id !== to.params.id
       ) {
-        this.postsStore.getUserPosts(
-          this.userStore.user.accessToken,
-          to.params.id
-        );
+        this.getPosts();
       }
     },
   },

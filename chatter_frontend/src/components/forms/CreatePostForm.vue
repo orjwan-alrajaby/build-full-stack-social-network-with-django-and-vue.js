@@ -21,10 +21,10 @@
 
         <button
           class="w-16 h-10 mx-2 font-medium rounded-lg bg-lime-300 disabled:bg-lime-900 disabled:cursor-not-allowed"
-          :disabled="!body || postsStore.posts.newPost.isLoading"
+          :disabled="!body || isLoading"
           @click="submitForm"
         >
-          <LoaderIcon width="1.5rem" height="1.5rem" classes="text-slate-950" v-if="postsStore.posts.newPost.isLoading" />
+          <LoaderIcon width="1.5rem" height="1.5rem" classes="text-slate-950" v-if="isLoading" />
           <SendIcon
             v-else
             width="1.5rem"
@@ -45,6 +45,7 @@ import PictureIcon from "@/components/icons/PictureIcon.vue";
 import { usePostsStore } from "@/stores/posts";
 import { useUserStore } from "@/stores/user";
 import { useToast } from "vue-toastification";
+import useCreatePost from "@/composables/posts/useCreatePost";
 
 export default {
   name: "CreatePostForm",
@@ -54,14 +55,21 @@ export default {
     PictureIcon,
   },
   setup() {
+    const toast = useToast();
     const postsStore = usePostsStore();
     const userStore = useUserStore();
-    const toast = useToast();
+    const { createPost, data: newPost, isLoading, isError } = useCreatePost();
 
     return {
       postsStore,
       userStore,
       toast,
+
+      //
+      createPost,
+      newPost,
+      isLoading,
+      isError,
     };
   },
   data() {
@@ -71,15 +79,26 @@ export default {
   },
   methods: {
     submitForm() {
-      this.postsStore
-        .createPost(this.userStore.user.accessToken, this.body, this.toast)
-        .then(() => {
-          this.body = "";
-          this.postsStore.updatePostList(
-            this.userStore.user.id,
-            this.$route.params.id
-          );
-        });
+      this.createPost(this.body).then(res => {
+        if (res.status === "error") {
+          return;
+        }
+        this.body = "";
+        this.postsStore.addNewPost(this.newPost);
+      })
+
+      //  this.userStore.user.id,
+      //  this.$route.params.id
+      
+      // this.postsStore
+      //   .createPost(this.userStore.user.accessToken, this.body, this.toast)
+      //   .then(() => {
+      //     this.body = "";
+      //     this.postsStore.updatePostList(
+      //       this.userStore.user.id,
+      //       this.$route.params.id
+      //     );
+      //   });
     },
   },
 };

@@ -24,6 +24,8 @@ export const useUserStore = defineStore({
         this.user.email = localStorage.getItem('user.email');
         this.user.accessToken = localStorage.getItem('user.accessToken');
         this.user.refreshToken = localStorage.getItem('user.refreshToken');
+
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.user.accessToken}`;
       }
     },
 
@@ -32,8 +34,8 @@ export const useUserStore = defineStore({
       this.user.refreshToken = data.refresh;
       this.user.isAuthenticated = true;
 
-      localStorage.setItem('user.accessToken', data.access)
-      localStorage.setItem('user.refreshToken', data.refresh)
+      localStorage.setItem('user.accessToken', data.access);
+      localStorage.setItem('user.refreshToken', data.refresh);
 
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.access}`
     },

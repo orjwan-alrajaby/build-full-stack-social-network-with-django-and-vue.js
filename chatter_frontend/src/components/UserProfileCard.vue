@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <template v-if="user?.author?.name">
   <div
     class="px-4 py-8 space-y-6 text-center border rounded-lg bg-slate-950 border-lime-300 text-slate-200"
   >
@@ -7,24 +9,24 @@
       class="block w-full mx-auto mb-6 rounded-full max-w-40"
     />
     <p class="mb-4 text-xl uppercase text-lime-300">
-      <strong>{{ postsStore.posts.userPosts.author.name }}</strong>
+      <strong>{{ user.author.name }}</strong>
     </p>
     <p
       class="font-medium text-md text-slate-200"
       v-if="this.$route.params.id === userStore.user.id"
     >
-      {{ postsStore.posts.userPosts.author.email }}
+      {{ user.author.email }}
     </p>
     <div class="flex justify-center mt-6 space-x-8">
       <p class="text-xs text-slate-400">
-        {{ postsStore.posts.userPosts.author.friends_count }} friends
+        {{ user.author.friends_count }} friends
       </p>
       <p class="text-xs text-slate-400">
-        {{ postsStore.posts.userPosts.author.posts_count }} posts
+        {{ user.author.posts_count }} posts
       </p>
     </div>
     <div v-if="this.$route.params.id !== userStore.user.id" class="mt-8">
-      <template v-if="postsStore.posts.userPosts.author.is_friend_of_user">
+      <template v-if="user.author.is_friend_of_user">
         <div class="flex items-center justify-center space-x-4">
           <div
             class="flex items-center justify-center h-10 px-4 py-2 font-medium rounded-lg w-fit bg-lime-300 text-slate-950"
@@ -50,22 +52,22 @@
         </div>
       </template>
       <template
-        v-else-if="postsStore.posts.userPosts.author.has_sent_friend_request_to"
+        v-else-if="user.author.has_sent_friend_request_to"
       >
         <div
           class="flex items-center justify-center h-10 px-4 py-2 mx-auto font-medium rounded-lg w-fit bg-lime-300 text-slate-950"
         >
-          <CircledTickIcon
+          <!-- <CircledTickIcon
             width="1.5rem"
             height="1.5rem"
             classes="text-slate-950"
-          />
+          /> -->
           <span class="ml-2">Sent friend request</span>
         </div>
       </template>
       <template
         v-else-if="
-          postsStore.posts.userPosts.author.has_received_friend_request_from
+          user.author.has_received_friend_request_from
         "
       >
         respond to friend request
@@ -97,13 +99,15 @@
     </div>
   </div>
 </template>
+  </div>
+</template>
 
 <script>
 import {
   LoaderIcon,
   TwoUsersIcon,
   DottedMessageBubbleIcon,
-  CircledTickIcon,
+  // CircledTickIcon,
   PlusUserIcon
 } from "@/components/icons"
 
@@ -112,31 +116,31 @@ import { usePostsStore } from "@/stores/posts";
 import { useUserStore } from "@/stores/user";
 import { useFriendshipsStore } from "@/stores/friendships";
 import { useToast } from "vue-toastification";
-
+import { storeToRefs } from "pinia";
 
 export default {
+  name: "UserProfileCard",
+  components: {
+    LoaderIcon,
+    TwoUsersIcon,
+    DottedMessageBubbleIcon,
+    // CircledTickIcon,
+    PlusUserIcon,
+  },
   setup() {
-    const postsStore = usePostsStore();
+    const { user } = storeToRefs(usePostsStore());
     const userStore = useUserStore();
     const friendshipsStore = useFriendshipsStore();
     const { startConversation } = useStartConversation();
     const toast = useToast();
 
     return {
-      postsStore,
+      user,
       userStore,
       friendshipsStore,
       toast,
       startConversation,
     };
-  },
-  name: "UserProfileCard",
-  components: {
-    LoaderIcon,
-    TwoUsersIcon,
-    DottedMessageBubbleIcon,
-    CircledTickIcon,
-    PlusUserIcon,
   },
   data() {
     return {

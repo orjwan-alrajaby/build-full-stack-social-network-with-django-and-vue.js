@@ -20,6 +20,8 @@ import TwoMessageBubblesIcon from "./TwoMessageBubblesIcon.vue"
 import TwoUsersIcon from "./TwoUsersIcon.vue"
 import WarningIcon from "./WarningIcon.vue"
 
+// todo: build, import and export the CircledTickIcon
+
 export {
   DottedMessageBubbleIcon,
   EmptyOfficeBoxIcon,
@@ -41,5 +43,5 @@ export {
   TrashIcon,
   TwoMessageBubblesIcon,
   TwoUsersIcon,
-  WarningIcon
+  WarningIcon,
 }

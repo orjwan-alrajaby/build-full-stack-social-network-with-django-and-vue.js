@@ -4,18 +4,18 @@
       <CreatePostForm />
       <template
         v-if="
-          postsStore.posts.all.data.length > 0 && !postsStore.posts.all.isError
+          postsStore.all.posts.length > 0 && !isError
         "
       >
         <PostItem
-          v-for="post in postsStore.posts.all.data"
+          v-for="post in postsStore.all.posts"
           :key="post.id"
           :post="post"
         />
       </template>
       <PageFeedback
         v-else-if="
-          postsStore.posts.all.isLoading && !postsStore.posts.all.isError
+          isLoading && !isError
         "
         :title="'Feed is loading...'"
       >
@@ -24,7 +24,7 @@
 
       <PageFeedback
         v-else-if="
-          postsStore.posts.all.isLoading && postsStore.posts.all.isError
+          isLoading && isError
         "
         :title="'Something went wrong :('"
         :subtitle="'Please press [CTRL + R] to refresh, or try to logout and login again.'"
@@ -58,21 +58,14 @@ import PostItem from "../components/PostItem.vue";
 import LoaderIcon from "../components/icons/LoaderIcon.vue";
 import DashedMessageBubbleIcon from "../components/icons/DashedMessageBubbleIcon.vue";
 import WarningIcon from "@/components/icons/WarningIcon.vue";
-import CreatePostForm from "@/components/forms/CreatePostForm.vue"
+import CreatePostForm from "@/components/forms/CreatePostForm.vue";
 
 import { usePostsStore } from "@/stores/posts";
 import { useUserStore } from "@/stores/user";
 
-export default {
-  setup() {
-    const postsStore = usePostsStore();
-    const userStore = useUserStore();
+import useGetFeedPosts from "@/composables/posts/useGetFeedPosts";
 
-    return {
-      postsStore,
-      userStore,
-    };
-  },
+export default {
   name: "FeedView",
   components: {
     PeopleYouMayKnow,
@@ -84,17 +77,40 @@ export default {
     WarningIcon,
     CreatePostForm,
   },
+  setup() {
+    const postsStore = usePostsStore();
+    const userStore = useUserStore();
+
+    const { getFeedPosts, data, isLoading, isError, error } = useGetFeedPosts();
+
+    return {
+      postsStore,
+      userStore,
+
+      //
+      getFeedPosts,
+      data,
+      isLoading,
+      isError,
+      error
+    };
+  },
   data() {
     return {
       body: "",
     };
   },
-  mounted() {
+  beforeMount() {
     if (
       this.userStore.user.isAuthenticated &&
       this.userStore.user.accessToken
     ) {
-      this.postsStore.getAllPosts(this.userStore.user.accessToken);
+      this.getFeedPosts().then(res => {
+        if (res.status === "error") {
+          return;
+        }
+        this.postsStore.setAllPosts(this.data);
+      });
     }
   },
 };

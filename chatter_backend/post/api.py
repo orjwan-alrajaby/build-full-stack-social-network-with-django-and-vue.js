@@ -23,7 +23,7 @@ def get_post_list(request):
   
   serializer = PostSerializer(posts, many=True, context={'request': request})
   
-  return JsonResponse({'data': serializer.data})
+  return JsonResponse({'posts': serializer.data}, status=status.HTTP_200_OK)
 
 
 # code above explanation
@@ -56,7 +56,7 @@ def create_post(request):
     user.save()
   
     serializer = PostSerializer(post)
-    return JsonResponse({'data': serializer.data}, safe=False)
+    return JsonResponse({'post': serializer.data}, safe=False, status=status.HTTP_201_CREATED)
   else:
     return JsonResponse({
       'message': "Bad request. Post data is not valid.",
