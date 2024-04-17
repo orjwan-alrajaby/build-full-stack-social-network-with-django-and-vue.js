@@ -74,8 +74,8 @@ export default {
   data() {
     return {
       form: {
-        email: "orjwan.alrajaby@gmail.com",
-        password: "Kiitos123456@@@",
+        email: "",
+        password: "",
       },
       errors: [],
     };
@@ -111,6 +111,7 @@ export default {
 
       this.handleLogin(this.form).then((res) => {
         if (res.status === "error") {
+  
           this.toast.error(res.message, {
             toastClassName: "!bg-red-700 !text-slate-200",
           });

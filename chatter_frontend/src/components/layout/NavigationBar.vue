@@ -152,9 +152,9 @@ export default {
     this.handleRefreshToken(this.userStore.user.refreshToken).then(res => {
       if (res.status === "error") {
         this.userStore.handleRemoveToken();
-        this.toast.info("Your session has expired, you must login again.", {
-          toastClassName: "!bg-blue-700 !text-slate-200",
-        })
+        // this.toast.info("Your session has expired, you must login again.", {
+        //   toastClassName: "!bg-blue-700 !text-slate-200",
+        // })
         return;
       }
     });
