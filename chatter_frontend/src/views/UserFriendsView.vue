@@ -5,7 +5,7 @@
         class="h-full p-4 space-y-4 border rounded-lg bg-slate-950 border-lime-300"
       >
         <template
-          v-if="friendshipsStore.friendships.getFriendsAndRequests.isLoading"
+          v-if="isLoading"
         >
           <PageFeedback title="Loading Friends...">
               <LoaderIcon />
@@ -14,26 +14,25 @@
         <h2
           class="pb-3 mb-4 text-xl border-b text-slate-400 border-slate-700"
           v-if="
-            friendshipsStore.friendships.getFriendsAndRequests.friends.length >
-              0 && !friendshipsStore.friendships.getFriendsAndRequests.isLoading
+            friendshipsStore.friends.length >
+              0 && !isLoading
           "
         >
           Friends ({{
-            friendshipsStore.friendships.getFriendsAndRequests.friends.length
+            friendshipsStore.friends.length
           }})
         </h2>
         <div class="grid grid-cols-5 gap-3 xl:grid-cols-4">
           <template
             v-if="
-              friendshipsStore.friendships.getFriendsAndRequests.friends
+              friendshipsStore.friends
                 .length > 0 &&
-              !friendshipsStore.friendships.getFriendsAndRequests.isLoading
+              !isLoading
             "
           >
             <div
               class="col-span-5 p-4 space-y-4 text-center rounded-lg bg-slate-900 xl:col-span-1 sm:col-span-2"
-              v-for="friend in friendshipsStore.friendships
-                .getFriendsAndRequests.friends"
+              v-for="friend in friendshipsStore.friends"
               :key="friend.id"
             >
               <img
@@ -81,26 +80,26 @@
           <div class="col-span-5 space-y-4 main-right xl:col-span-1 md:col-span-2">
       <template
         v-if="
-          !friendshipsStore.friendships.getFriendsAndRequests.isLoading &&
-          friendshipsStore.friendships.getFriendsAndRequests.receivedRequests.length > 0
+          !isLoading &&
+          friendshipsStore.receivedRequests.length > 0
         "
       >
         <IncomingFriendRequests
-          v-if="friendshipsStore.friendships.getFriendsAndRequests.receivedRequests.length > 0"
-          :list="friendshipsStore.friendships.getFriendsAndRequests.receivedRequests"
+          v-if="friendshipsStore.receivedRequests.length > 0"
+          :list="friendshipsStore.receivedRequests"
         />
 
         <OutgoingFriendRequests
-        v-if="friendshipsStore.friendships.getFriendsAndRequests.sentRequests.length > 0"
-         :list="friendshipsStore.friendships.getFriendsAndRequests.sentRequests"
+        v-if="friendshipsStore.sentRequests.length > 0"
+         :list="friendshipsStore.sentRequests"
          />
 
         <PeopleYouMayKnow />
       </template>
       <template
         v-else-if="
-          friendshipsStore.friendships.getFriendsAndRequests.isLoading &&
-          !friendshipsStore.friendships.getFriendsAndRequests.isError
+          isLoading &&
+          !friendshipsStore.isError
         "
       >
         <PageFeedback title="Loading Requests...">
@@ -120,39 +119,42 @@ import { useToast } from "vue-toastification";
 import IncomingFriendRequests from "../components/IncomingFriendRequests.vue";
 import OutgoingFriendRequests from "../components/OutgoingFriendRequests.vue";
 import LoaderIcon from "@/components/icons/LoaderIcon.vue"
+import useGetFriendsAndRequests from "@/composables/friendships/useGetFriendsAndRequests"
 
 export default {
-  setup() {
-    const userStore = useUserStore();
-    const friendshipsStore = useFriendshipsStore();
-    const toast = useToast();
-
-    return {
-      userStore,
-      friendshipsStore,
-      toast,
-    };
-  },
-  name: "UserFriendView",
+  name: "UserFriendsView",
   components: {
     PeopleYouMayKnow,
     IncomingFriendRequests,
     OutgoingFriendRequests,
     LoaderIcon,
   },
+  setup() {
+    const toast = useToast();
+    const userStore = useUserStore();
+    const friendshipsStore = useFriendshipsStore();
+    const { getFriendsAndRequests, data, isLoading, isError } = useGetFriendsAndRequests();
+
+    return {
+      userStore,
+      friendshipsStore,
+      toast,
+
+      // 
+      getFriendsAndRequests,
+      data,
+      isLoading,
+      isError 
+    };
+  },
   data() {
     return {
       body: "",
     };
   },
-  mounted() {
-    this.getFriendsAndRequests();
-  },
   methods: {
-    async getFriendsAndRequests() {
-      this.friendshipsStore
-        .getFriendsAndRequests(
-          this.userStore.user.accessToken,
+    fetchFriendsAndRequests() {
+      this.getFriendsAndRequests(
           this.$route.params.id
         )
         .then((res) => {
@@ -163,9 +165,14 @@ export default {
                 toastClassName: "!bg-red-700 !text-slate-200",
               }
             );
+            return
           }
+          this.friendshipsStore.setFriendsAndRequests(this.data);
         });
     },
+  },
+  mounted() {
+    this.fetchFriendsAndRequests();
   },
   watch: {
     $route(to, from) {
@@ -174,8 +181,5 @@ export default {
       }
     } 
    },
-  unmounted() {
-    this.friendshipsStore.resetFriendshipsStore();
-  },
 };
 </script>

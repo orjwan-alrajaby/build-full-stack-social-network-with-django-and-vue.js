@@ -32,9 +32,9 @@
         <button
           class="flex items-center justify-center w-16 p-2 space-x-2 text-xs font-medium border rounded-lg border-lime-300 text-lime-300 disabled:text-lime-900 disabled:border-lime-900 disabled:cursor-not-allowed"
           @click="handleCancel(request.created_for.id)"
-          :disabled="friendshipsStore.friendships.deleteRequest.isLoading"
+          :disabled="isLoading"
         >
-          <LoaderIcon v-if="friendshipsStore.friendships.deleteRequest.isLoading" width="1.5rem" height="1.5rem" classes="text-lime-300"/>
+          <LoaderIcon v-if="isLoading" width="1.5rem" height="1.5rem" classes="text-lime-300"/>
           <span v-else>Cancel</span>
         </button>
       </div>
@@ -49,6 +49,8 @@ import { useUserStore } from "@/stores/user";
 import { useFriendshipsStore } from "@/stores/friendships";
 import { useToast } from "vue-toastification";
 
+import useCancelFriendRequest from "@/composables/friendships/useCancelFriendRequest"
+
 export default {
   name: "OutgoingFriendRequests",
   components: {
@@ -58,11 +60,16 @@ export default {
     const userStore = useUserStore();
     const friendshipsStore = useFriendshipsStore();
     const toast = useToast();
+    const { cancelFriendRequest, isLoading } = useCancelFriendRequest();
 
     return {
       userStore,
       friendshipsStore,
       toast,
+
+      //
+      cancelFriendRequest,
+      isLoading 
     };
   },
   props: {
@@ -71,23 +78,24 @@ export default {
   methods: {
     handleCancel(receiverId) {
       this.friendshipsStore
-        .cancelSentRequest(this.userStore.user.accessToken, receiverId)
+        .cancelSentRequest(receiverId)
         .then((res) => {
-          if (res.status === "success") {
-            this.toast.success(
-              `Friend request has been cancelled successfully!`,
-              {
-                toastClassName: "!bg-emerald-700 !text-slate-200",
-              }
-            );
-          } else {
+          if (res.status === "error") {
             this.toast.error(
               `Failed to cancel friend request. Reload the page and try again.`,
               {
                 toastClassName: "!bg-red-700 !text-slate-200",
               }
             );
+            return;
           }
+          this.friendshipsStore.deleteSentRequest(receiverId);
+          this.toast.success(
+              `Friend request has been cancelled successfully!`,
+              {
+                toastClassName: "!bg-emerald-700 !text-slate-200",
+              }
+            );
         });
     },
   },

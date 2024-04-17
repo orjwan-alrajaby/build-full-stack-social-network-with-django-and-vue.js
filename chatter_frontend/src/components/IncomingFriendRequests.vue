@@ -65,6 +65,7 @@ import { TrashIcon, PlusUserIcon } from "@/components/icons";
 import { useFriendshipsStore } from "@/stores/friendships";
 import { useUserStore } from "@/stores/user";
 import { useToast } from "vue-toastification";
+import useRespondToFriendRequest from "@/composables/friendships/useRespondToFriendRequest"
 
 export default {
   name: "IncomingFriendRequests",
@@ -73,6 +74,7 @@ export default {
     PlusUserIcon,
   },
   setup() {
+    const { respondToFriendRequest } = useRespondToFriendRequest();
     const friendshipsStore = useFriendshipsStore();
     const userStore = useUserStore();
     const toast = useToast();
@@ -81,6 +83,9 @@ export default {
       friendshipsStore,
       userStore,
       toast,
+
+      //
+      respondToFriendRequest,
     };
   },
   props: {
@@ -88,28 +93,27 @@ export default {
   },
   methods: {
     handleFriendshipRequest(status, senderId) {
-      this.friendshipsStore
-        .respondToFriendRequest(
-          this.userStore.user.accessToken,
+      this.respondToFriendRequest(
           status,
           senderId
         )
         .then((res) => {
-          if (res.status === "success") {
-            this.toast.success(
-              `Friend request has been ${status} successfully!`,
-              {
-                toastClassName: "!bg-emerald-700 !text-slate-200",
-              }
-            );
-          } else {
+          if (res.status === "error") {
             this.toast.error(
               `Failed to respond to friend request. Reload the page and try again.`,
               {
                 toastClassName: "!bg-red-700 !text-slate-200",
               }
             );
+            return;
           }
+          
+          this.toast.success(
+            `Friend request has been ${status} successfully!`,
+            {
+              toastClassName: "!bg-emerald-700 !text-slate-200",
+            }
+          ); 
         });
     },
   },

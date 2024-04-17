@@ -75,11 +75,11 @@
       <template v-else>
         <button
           type="button"
-          @click.prevent="addFriend"
+          @click.prevent="handleAddFriend"
           class="flex items-center justify-center w-40 h-10 px-4 py-2 mx-auto font-medium rounded-lg bg-lime-300 text-slate-950 disabled:bg-lime-900 disabled:cursor-not-allowed"
-          :disabled="friendshipsStore.friendships.addFriend.isLoading"
+          :disabled="isLoading"
         >
-          <template v-if="friendshipsStore.friendships.addFriend.isLoading">
+          <template v-if="isLoading">
             <LoaderIcon
               width="1.5rem"
               height="1.5rem"
@@ -117,6 +117,7 @@ import { useUserStore } from "@/stores/user";
 import { useFriendshipsStore } from "@/stores/friendships";
 import { useToast } from "vue-toastification";
 import { storeToRefs } from "pinia";
+import useAddFriend from "@/composables/friendships/useAddFriend";
 
 export default {
   name: "UserProfileCard",
@@ -128,11 +129,12 @@ export default {
     PlusUserIcon,
   },
   setup() {
-    const { user } = storeToRefs(usePostsStore());
+    const toast = useToast();
     const userStore = useUserStore();
     const friendshipsStore = useFriendshipsStore();
+    const { user } = storeToRefs(usePostsStore());
     const { startConversation } = useStartConversation();
-    const toast = useToast();
+    const { addFriend, data, isLoading, isError } = useAddFriend();
 
     return {
       user,
@@ -140,6 +142,12 @@ export default {
       friendshipsStore,
       toast,
       startConversation,
+
+      // 
+      addFriend,
+      data,
+      isLoading,
+      isError 
     };
   },
   data() {
@@ -148,38 +156,34 @@ export default {
     };
   },
   methods: {
-    async addFriend() {
-      this.friendshipsStore
-        .addFriend(this.userStore.user.accessToken, this.$route.params.id)
+    handleAddFriend() {
+      this.addFriend(this.$route.params.id)
         .then((res) => {
-          if (res.status === "success") {
-            this.toast.success(`Friend request has been sent successfully!`, {
-              toastClassName: "!bg-emerald-700 !text-slate-200",
-            });
-          } else {
+          if (res.status === "error") {
             this.toast.error(
               `Friend request has failed to send. Reload the page and try again.`,
               {
                 toastClassName: "!bg-red-700 !text-slate-200",
               }
             );
+            return;
           }
+          this.toast.success(`Friend request has been sent successfully!`, {
+            toastClassName: "!bg-emerald-700 !text-slate-200",
+          });
         });
     },
     messageUser() {
       this.startConversation(this.$route.params.id).then((res) => {
-        if (res.status === "success") {
-          this.$router.push({ name: "messages" });
-        } else {
+        if (res.status === "error") {
           this.toast.error(`Failed to start conversation with user.`, {
             toastClassName: "!bg-red-700 !text-slate-200",
           });
-        }
+          return;
+        } 
+        this.$router.push({ name: "messages" });
       });
     },
-  },
-  unmounted() {
-    this.friendshipsStore.resetFriendshipsStore();
   },
 };
 </script>
