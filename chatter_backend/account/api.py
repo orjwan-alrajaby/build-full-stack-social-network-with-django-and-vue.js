@@ -70,7 +70,6 @@ def get_friends_and_requests(request, id):
         created_by=request.user, status=FriendshipRequest.SENT)
     
   friends = user.friends.all()
-  user_serializer = UserSerializer(user)
   friends_serializer = UserSerializer(
       friends, many=True, context={'request': request})
   received_requests_serializer = FriendshipRequestSerializer(
@@ -79,10 +78,9 @@ def get_friends_and_requests(request, id):
       sent_requests, many=True)
   
   return JsonResponse({
-     'user': user_serializer.data,
-     'received_requests': received_requests_serializer.data,
-     'sent_requests': sent_requests_serializer.data,
      'friends': friends_serializer.data,
+     'sent_requests': sent_requests_serializer.data,
+     'received_requests': received_requests_serializer.data,
   }, safe=False, status=response_status.HTTP_200_OK)
   
   
