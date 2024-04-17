@@ -101,29 +101,6 @@ of what you will need:
 3. **Node.js and npm**: You can download and install Node.js from the official
    website, and npm comes bundled in with the installation.
 
-8. **Vue.js dependencies**: Navigate to your Vue.js frontend directory and run
-   `npm install` to install all the dependencies specified in your
-   `package.json` file.
-
-Once you have all the necessary tools and packages installed, you'll need to
-follow these steps to run the project locally:
-
-1. **Backend Setup**:
-   - Navigate to the Django project directory.
-   - If you're using a virtual environment, activate it.
-   - Run `python manage.py migrate` to apply migrations.
-   - Run `python manage.py runserver` to start the Django development server.
-
-2. **Frontend Setup**:
-   - Navigate to the Vue.js project directory.
-   - Run `npm run serve` to start the Vue development server.
-
-3. **Accessing the Application**: Once both servers are running, you can access
-   the application by visiting `http://localhost:8000` for the Django backend
-   and `http://localhost:8080` (or another port depending on your Vue.js
-   configuration) for the Vue.js frontend in your web browser.
-
-
 ### Step one: clone the repository.
 
 Clone this project by executing the following command:
@@ -170,7 +147,7 @@ Now if you see the following output, it means the server has ran successfully!
   Quit the server with CTRL-BREAK.
 ```
 
-### Step Four: install dependencies for the frontend.
+### Step four: install dependencies for the frontend.
 
 Now that our backend is running successfully, we can move on to the frontend. So
 navigate into the root directory (if you're still inside `chatter_backend`) by
@@ -193,7 +170,13 @@ cd chatter_frontend
 Once you're inside `chatter_frontend`, install dependencies by executing `yarn
 install` if you're using yarn, or `npm install` if you're using npm.
 
-### Step Four: Running the Vue.js app
+### Step five: Running the Vue.js app
 
 Now that you've installed the dependencies needed to run the app, just go ahead
 and run `yarn run serve` or `npm run serve`.
+
+### Step Six: Accessing the Application
+
+Once both servers are running, you can access the application by visiting
+`http://localhost:8000` for the Django backend and `http://localhost:8080` for
+the Vue.js frontend in your web browser.
